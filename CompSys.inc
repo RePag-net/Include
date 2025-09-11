@@ -1,0 +1,33 @@
+;******************************************************************************
+;MIT License
+
+;Copyright(c) 2025 René Pagel
+
+;Filename: CompSys.inc
+;For more information see https://github.com/RePag-net/Include
+
+;Permission is hereby granted, free of charge, to any person obtaining a copy
+;of this software and associated documentation files(the "Software"), to deal
+;in the Software without restriction, including without limitation the rights
+;to use, copy, modify, merge, publish, distribute, sublicense, and /or sell
+;copies of the Software, and to permit persons to whom the Software is
+;furnished to do so, subject to the following conditions :
+
+;The above copyright notice and this permission notice shall be included in all
+;copies or substantial portions of the Software.
+
+;THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+;AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+;SOFTWARE.
+;******************************************************************************
+;--------------------------------------------------------------------------------------------------
+EXTRN	?MemCopy@System@RePag@@YQPAXPAXPBXK@Z:PROC         ; MemCopy(pvZiel, pvQuelle, ulBytes)
+EXTRN	?VMBlock@System@RePag@@YQPADPBXK@Z:PROC            ; VMBlock(vmSpeicher, ulBytes)
+EXTRN	?VMBlockS@System@RePag@@YQPADPBXK@Z:PROC           ; VMBlockS(vmSpeicher, ulBytes)
+EXTRN ?VMFrei@System@RePag@@YQXPBXPAX@Z:PROC             ; VMFrei(vmSpeicher, vbAdresse)
+EXTRN ?VMFreiS@System@RePag@@YQXPBXPAX@Z:PROC            ; VMFreiS(vmSpeicher, vbAdresse)
+;--------------------------------------------------------------------------------------------------
