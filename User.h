@@ -28,5 +28,7 @@ SOFTWARE.
 #define UserH
 //---------------------------------------------------------------------------
 __declspec(dllimport) void __vectorcall CPUInstructions(_In_ HWND hWnd);
+__declspec(dllimport) STTransferData* __vectorcall TransferData(HWND hWndElement);
+__declspec(dllimport) void __vectorcall CloseTransferData(STTransferData* pstTransferData);
 //---------------------------------------------------------------------------
 #endif
