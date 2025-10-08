@@ -203,6 +203,62 @@ namespace RePag
 		__declspec(dllimport) COEditLine* __vectorcall COEditLineV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcFensterName, _In_ unsigned int uiIDElement,
 																															 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllimport) COTextBox : public COEditLine
+		{
+			friend LRESULT CALLBACK WndProc_TextBox(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
+
+			private:
+			struct STScrollInfo
+			{
+				ULONG ulMask;
+				long lMin;
+				long lMax;
+				ULONG ulPage;
+				long  lPos;
+				long  lTrackPos;
+			};
+			STScrollInfo stScrollInfo_Horz;
+			STScrollInfo stScrollInfo_Vert;
+			void __vectorcall Text_Create(HWND hWnd);
+			void __vectorcall OnRender(void);
+
+			protected:
+			COList* vliText;
+			long lBreitesteZeile;
+			long lRand_rechts;
+			long lRand_unten;
+			void __vectorcall WM_Create(HWND hWnd);
+			void __vectorcall WM_Size(LPARAM lParam);
+			void __vectorcall WM_VScroll(WPARAM wParam);
+			void __vectorcall WM_HScroll(WPARAM wParam);
+			void __vectorcall WM_LButtonDown(void);
+			void __vectorcall WM_MouseWheel(WPARAM wParam, LPARAM lParam);
+			void __vectorcall SetzScrollHorz(STScrollInfo& stScrollHorz);
+			void __vectorcall SetzScrollVert(STScrollInfo& stScrollVert);
+			void __vectorcall GetScrollInfo(int iBar, STScrollInfo& stScrollInfo);
+			void __vectorcall SetScrollInfo(int iBar, STScrollInfo& stScrollInfo, bool bredraw);
+			void __vectorcall DeSelect(void);
+			void __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA,
+																	 _In_ STDeviceResources* pstDeviceResourcesA);
+
+			public:
+			void __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA,
+																	 _In_ STDeviceResources* pstDeviceResources);
+			VMEMORY __vectorcall COFreiV(void);
+			void __vectorcall Text(char* pcText);
+			void __vectorcall Text_NeueZeile(char* pcText);
+			unsigned long __vectorcall Zeilenanzahl(void);
+			long __vectorcall BreitesteZeile(void);
+			void __vectorcall Scroll_Anfang(void);
+			void __vectorcall Scroll_Ende(void);
+			void __vectorcall Scroll_Zeile(bool bAbwarts);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+																															 _In_ STDeviceResources* pstDeviceResources);
+		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
 }
 #endif

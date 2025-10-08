@@ -58,7 +58,7 @@ constexpr unsigned char FT_SORTDOWN = 32;
 constexpr unsigned char FT_SORTUP = 64;
 constexpr unsigned char FT_KEY = 128;
 //-------------------------------------------------------------------------------------------------------------------------------------------
-constexpr unsigned char AT_NOCRYPT = 0;
+constexpr unsigned char AT_NONCRYPT = 0;
 constexpr unsigned char AT_CRYPT = 1;
 
 //-------------------------------------------------------------------------------------------------------------------------------------------

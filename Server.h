@@ -27,7 +27,6 @@ SOFTWARE.
 #ifndef ServerH
 #define ServerH
 //------------------------------------------------------------------------------------------------------------------------------------------
-constexpr BYTE CS_DBENCRYPTINITAL = 234;
 constexpr BYTE CS_COREMEMORY = 235;
 constexpr BYTE CS_CORECONNECT = 236;
 constexpr BYTE CS_VIRTUALMEMORY = 237;

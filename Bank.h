@@ -32,53 +32,11 @@ SOFTWARE.
 #define CS_TESTLISTE 1
 //---------------------------------------------------------------------------
 #define TAB_TEST 0
-#define TAB_TESTLISTE 1
-#define TAB_TESTDOKUMENT 2
-#define TAB_TESTZAHLEN 3
-#define TAB_TESTMEDIA 4
-#define TAB_KLEINBILD 5
-#define TAB_GROSSBILD 6
 //---------------------------------------------------------------------------
 #define SPL_TEST_ULTEST 0
-#define SPL_TEST_KSTEST 1
-#define SPL_TEST_UCTEST 2
-#define SPL_TEST_KBTEST 3
-#define SPL_TEST_GBTEST 4
-#define SPL_TEST_MSTEST 5
-#define SPL_TEST_LSTEST 6
-#define SPL_TEST_ZTEST 7
-#define SPL_TEST_K4TEST 8
+#define SPL_TEST_SSTEST 1
+#define SPL_TEST_ZTEST 2
+#define SPL_TEST_K4TEST 3
 #define BST_TEST_ULTEST 0
-#define BST_TEST_KSTEST 1
-
-#define SPL_TESTLISTE_UCNUMMER 0
-#define SPL_TESTLISTE_KSTEXT 1
-#define BST_TESTLISTE_UCNUMMER 0
-
-#define SPL_TESTDOKUMENT_UCNUMMER 0
-#define SPL_TESTDOKUMENT_DKTEST 1
-#define SPL_TESTDOKUMENT_ZTEST 2
-#define BST_TESTDOKUMENT_UCNUMMER 0
-
-#define SPL_TESTZAHLEN_LLTEST 0
-#define SPL_TESTZAHLEN_K4TEST 1
-#define SPL_TESTZAHLEN_FTEST 2
-#define SPL_TESTZAHLEN_DTEST 3
-#define SPL_TESTZAHLEN_128BIT 4
-#define BST_TESTZAHLEN_LLTEST 0
-
-#define SPL_TESTMEDIA_ZTEST 0
-#define SPL_TESTMEDIA_UCTEST 1
-#define SPL_TESTMEDIA_MATEST 2
-#define SPL_TESTMEDIA_MVTEST 3
-#define BST_TESTMEDIA_ZTEST 0
-
-#define SPL_KLEINBILD_ZDATUM 0
-#define SPL_KLEINBILD_KBBILD 1
-#define BST_KLEINBILD_ZDATUM 0
-
-#define SPL_GROSSBILD_ZDATUM 0
-#define SPL_GROSSBILD_GBBILD 1
-#define BST_GROSSBILD_ZDATUM 0
 //---------------------------------------------------------------------------
 #endif
