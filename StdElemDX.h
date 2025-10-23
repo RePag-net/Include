@@ -83,7 +83,7 @@ namespace RePag
 			COStringA* vasInhalt;
 			STFont stFont;
 			IDWriteTextFormat* ifText;
-			D2D1_COLOR_F stTextColor;
+			D2D1_COLOR_F crfText;
 			ID2D1SolidColorBrush* ifTextColor;
 			long lZeichen_mittel;
 			long lZeichen_hohe;
@@ -105,8 +105,8 @@ namespace RePag
 			void __vectorcall Text(_In_z_ char* pcText);
 			void __vectorcall Font(STFont& stFont);
 			COStringA* __vectorcall Content(_Out_ COStringA* vasInhaltA);
-			void __vectorcall TextColor(_In_ unsigned char ucRot, _In_ unsigned char ucGrun, _In_ unsigned char ucBlau, _In_ unsigned char ucAlpha);
-			void __vectorcall TextColor(_In_ D2D1_COLOR_F& stTextColorA);
+			void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
 			void __vectorcall TextAlignment(_In_ unsigned char ucTextAlignment);
 
 		};
@@ -146,9 +146,9 @@ namespace RePag
 			unsigned char ucZeichenVorgabe;
 			unsigned long ulZeichenPos;
 			unsigned long ulSelectPos;
-			D2D1_COLOR_F stSelectTextColor;
-			D2D1_COLOR_F stSelectBackColor;
-			D2D1_COLOR_F stCaretColor;
+			D2D1_COLOR_F crfSelectText;
+			D2D1_COLOR_F crfSelectBack;
+			D2D1_COLOR_F crfCaret;
 			ID2D1SolidColorBrush* ifSelectBackColor;
 			ID2D1SolidColorBrush* ifCaretColor;
 			//STRGBFarbe stSelectSchriftfarbe;
@@ -169,8 +169,8 @@ namespace RePag
 			bool __vectorcall ZeichenVorgabe(WPARAM wParam);
 			void __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ SIZE& stTextPoint);
 			void __vectorcall DeleteCaretPos(void);
-			void __vectorcall SetCaretColor(_In_ unsigned char ucRot, _In_ unsigned char ucGrun, _In_ unsigned char ucBlau, _In_ unsigned char ucAlpha);
-			void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& stCaretColorA);
+			void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& crfCaretA);
 			void __vectorcall COEditLineV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcKlassenName, _In_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
 																		_In_ STDeviceResources* pstDeviceResourcesA);
 
@@ -187,8 +187,10 @@ namespace RePag
 			void(__vectorcall* pfnWM_LButtonDBClick)(COEditLine*, WPARAM, LPARAM);
 			void __vectorcall SetzVerfugbar(bool bVerfugbar);
 			void __vectorcall Text(char* pcText);
-			void __vectorcall SelectSchriftfarbe(unsigned char ucRot, unsigned char ucGrun, unsigned char ucBlau);
-			void __vectorcall SelectHintergrundfarbe(unsigned char ucRot, unsigned char ucGrun, unsigned char ucBlau);
+			void __vectorcall SetSelectTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetSelectTextColor(_In_ D2D1_COLOR_F& crfSelectTextA);
+			void __vectorcall SetSelectBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetSelectBackgroundColor(_In_ D2D1_COLOR_F& crfSelectBackA);
 			void __vectorcall SetzZeichen_Max(unsigned long ulZeichen);
 			unsigned long __vectorcall Zeichen_Max(void);
 			void __vectorcall Zeichenvorgabe(unsigned char ucZeichenvorgabeA);
@@ -203,20 +205,97 @@ namespace RePag
 		__declspec(dllimport) COEditLine* __vectorcall COEditLineV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcFensterName, _In_ unsigned int uiIDElement,
 																															 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
+		typedef struct STScrollInfo
+		{
+			long lMin;
+			long lMax;
+			ULONG ulPage;
+			long  lPos;
+		}; STScrollInfo;
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllimport) COScrollBar : public COGraphic
+		{
+
+			friend LRESULT CALLBACK WndProc_ScrollBar(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
+
+			private:
+			STScrollInfo stScrollInfo;
+			BYTE ucDirty;
+			bool bMouseTracking;
+			TRACKMOUSEEVENT stTrackMouseEvent;
+			ID2D1RectangleGeometry* ifButton_Up;
+			ID2D1RectangleGeometry* ifButton_Down;
+			D2D1_COLOR_F crfButton;
+			D2D1_COLOR_F crfButton_Click;
+			D2D1_COLOR_F crfButton_Move;
+			ID2D1SolidColorBrush* ifButtonColor;
+			ID2D1PathGeometry* ifArrow_Up;
+			ID2D1PathGeometry* ifArrow_Down;
+			D2D1_COLOR_F crfArrow;
+			D2D1_COLOR_F crfArrow_Click;
+			D2D1_COLOR_F crfArrow_Move;
+			ID2D1SolidColorBrush* ifArrowColor;
+			FLOAT fScaleArrowThumb;
+			D2D1_POINT_2F ptf3Arrow_Up[3];
+			D2D1_POINT_2F ptf3Arrow_Down[3];
+			ID2D1RoundedRectangleGeometry* ifThumb;
+			D2D1_COLOR_F crfThumb;
+			D2D1_COLOR_F crfThumb_Click;
+			D2D1_COLOR_F crfThumb_Move;
+			ID2D1SolidColorBrush* ifThumbColor;
+			D2D1_RECT_L rclThumb;
+			long lThumb_Hohe;
+			void __vectorcall CreateThumb(bool bRender);
+
+			protected:
+			void __vectorcall OnRender(void);
+			void __vectorcall OnPaint(void);
+			void __vectorcall WM_Create(void);
+			void __vectorcall WM_MouseMove(WPARAM wParam, LPARAM lParam);
+			void __vectorcall WM_MouseLeave(void);
+			void __vectorcall WM_MouseOver(WPARAM wParam, LPARAM lParam);
+			void __vectorcall WM_LButtonDown(WPARAM wParam, LPARAM lParam);
+			void __vectorcall WM_LButtonUp(WPARAM wParam, LPARAM lParam);
+			void __vectorcall COScrollBarV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcKlassenName, _In_z_ const char* pcFensterName,
+																		 _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
+
+			public:
+			void __vectorcall COScrollBarV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
+																		 _In_ STDeviceResources* pstDeviceResources);
+			VMEMORY __vectorcall COFreiV(void);
+			void __vectorcall GetScrollInfo(_In_ STScrollInfo& stScrollInfoA);
+			void __vectorcall SetScrollInfo(_In_ STScrollInfo& stScrollInfoA);
+			void __vectorcall ScaleArrowThumb(_In_ float fScale);
+			void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
+			void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetButtonColor_Move(_In_ D2D1_COLOR_F& crfButton_MoveA);
+			void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetButtonColor_Click(_In_ D2D1_COLOR_F& crfButton_ClickA);
+			void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetArrowColor(_In_ D2D1_COLOR_F& crfArrowA);
+			void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetArrowColor_Move(_In_ D2D1_COLOR_F& crfArrow_MoveA);
+			void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetArrowColor_Click(_In_ D2D1_COLOR_F& crfArrow_ClickA);
+			void __vectorcall SetThumbColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetThumbColor(_In_ D2D1_COLOR_F& crfThumbA);
+			void __vectorcall SetThumbColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetThumbColor_Move(_In_ D2D1_COLOR_F& crfThumb_MoveA);
+			void __vectorcall SetThumbColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetThumbColor_Click(_In_ D2D1_COLOR_F& crfThumb_ClickA);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+																																 _In_ STDeviceResources* pstDeviceResources);
+		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COTextBox : public COEditLine
 		{
 			friend LRESULT CALLBACK WndProc_TextBox(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
 
 			private:
-			struct STScrollInfo
-			{
-				ULONG ulMask;
-				long lMin;
-				long lMax;
-				ULONG ulPage;
-				long  lPos;
-				long  lTrackPos;
-			};
 			STScrollInfo stScrollInfo_Horz;
 			STScrollInfo stScrollInfo_Vert;
 			void __vectorcall Text_Create(HWND hWnd);
@@ -257,7 +336,7 @@ namespace RePag
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
 		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcFensterName, _In_ unsigned int uiIDElement,
-																															 _In_ STDeviceResources* pstDeviceResources);
+																														 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
 }
