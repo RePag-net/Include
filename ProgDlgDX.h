@@ -91,8 +91,8 @@ namespace RePag
         VMEMORY vmSpeicher;
         HWND hWndElement;
         HANDLE htEffekt_Timer;
-        long lHohe;
-        long lBreite;
+        long lHeight;
+        long lWidth;
         POINT ptPosition;
         D2D1_COLOR_F crfBackground;
         ID2D1SolidColorBrush* ifBackColor;
@@ -120,19 +120,19 @@ namespace RePag
       void(__vectorcall* pfnWM_Size)(COElement*, WPARAM, LPARAM);
       HWND __vectorcall HWND_Element(void);
       HWND __vectorcall HWND_Haupt(void);
-      long& __vectorcall Breite(long& lBreiteA);
-      long& __vectorcall Hohe(long& lHoheA);
+      long& __vectorcall Width(long& lWidthA);
+      long& __vectorcall Height(long& lHeightA);
       long& __vectorcall Pos_X(long& lPos_x);
       long& __vectorcall Pos_Y(long& lPos_y);
       POINT& __vectorcall Position(POINT& ptPositionA);
       RECT& __vectorcall Fenster(RECT& rcFenster);
       void __vectorcall NeueFensterPosition(long lPos_x, long lPos_y);
       void __vectorcall NeueFensterPosition(POINT& ptPositionA);
-      void __vectorcall NeuesFenster(long lHoheA, long lBreiteA, long lPos_x, long lPos_y);
-      void __vectorcall NeueFensterGrosse(long lHoheA, long lBreiteA);
-      void __vectorcall NeueFensterHohe(long lHoheA);
-      void __vectorcall NeueFensterBreite(long lBreiteA);
-      void __vectorcall AndernFensterGrosse(long lHoheA, long lBreiteA);
+      void __vectorcall NeuesFenster(long lHeightA, long lWidthA, long lPos_x, long lPos_y);
+      void __vectorcall NeueFensterGrosse(long lHeightA, long lWidthA);
+      void __vectorcall NeueFensterHohe(long lHeightA);
+      void __vectorcall NeueFensterBreite(long lWidthA);
+      void __vectorcall AndernFensterGrosse(long lHeightA, long lWidthA);
       void __vectorcall AndernFensterPosition(long lPos_x, long lPos_y);
       void __vectorcall SetBackgroundColor(_In_ unsigned char ucRot, _In_ unsigned char ucGrun, _In_ unsigned char ucBlau, _In_ unsigned char ucAlpha);
       void __vectorcall GetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
@@ -190,7 +190,7 @@ namespace RePag
         void(__vectorcall* pfnWM_Paint)(CODialog*, PAINTSTRUCT&);
         void(__vectorcall* pfnWM_Move)(CODialog*, LPARAM);
         void(__vectorcall* pfnWM_Command)(HWND, unsigned int, WPARAM, LPARAM);
-        void __vectorcall ErstellFenster(HWND hWndHaupt, long lHoheA, long lBreiteA, long lPos_x, long lPos_y);
+        void __vectorcall ErstellFenster(HWND hWndHaupt, long lHeightA, long lWidthA, long lPos_x, long lPos_y);
         long __vectorcall SetzSichtbar(bool bSichtbar, unsigned char ucAusrichtung, long lRuckgabeA);
         void __vectorcall Schliessen(void);
         LOGFONT lfSchrift;
@@ -219,7 +219,7 @@ namespace RePag
         VMEMORY __vectorcall COFreiV(void);
         void __vectorcall FensterStil(DWORD dwFensterStilA);
         void __vectorcall ErweitertStil(DWORD dwErweitertStilA);
-        void __vectorcall ErstellFenster(HWND hWndHaupt, long lHoheA, long lBreiteA, long lPos_x, long lPos_y);
+        void __vectorcall ErstellFenster(HWND hWndHaupt, long lHeightA, long lWidthA, long lPos_x, long lPos_y);
         unsigned int __vectorcall IDElement(void);
         void __vectorcall SetzSichtbar(bool bSichtbar);
         bool __vectorcall Sichtbar(void);
@@ -240,7 +240,7 @@ namespace RePag
       void __vectorcall COGraphicGroupV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcFensterName, _In_ unsigned int uiDElementA,
                                         _In_ STDeviceResources* pstDeviceResourcesA);
       void __vectorcall ErstellFensterInRahmen(COGraphic* pGraphic);
-      void __vectorcall ErstellFensterInGruppe(COGraphic* pGraphic, long lHoheA, long lBreiteA, long lPos_x, long lPos_y);
+      void __vectorcall ErstellFensterInGruppe(COGraphic* pGraphic, long lHeightA, long lWidthA, long lPos_x, long lPos_y);
       void(__vectorcall* pfnWM_Paint)(COGraphicGroup*, PAINTSTRUCT&);
       void(__vectorcall* pfnWM_Command)(HWND, unsigned int, WPARAM, LPARAM);
       void __vectorcall SetzSichtbar(bool bSichtbar);

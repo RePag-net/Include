@@ -211,7 +211,7 @@ namespace RePag
 			long lMax;
 			ULONG ulPage;
 			long  lPos;
-		}; STScrollInfo;
+		} STScrollInfo;
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COScrollBar : public COGraphic
 		{
@@ -219,6 +219,7 @@ namespace RePag
 			friend LRESULT CALLBACK WndProc_ScrollBar(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
 
 			private:
+			bool bHorizontal;
 			STScrollInfo stScrollInfo;
 			BYTE ucDirty;
 			bool bMouseTracking;
@@ -236,15 +237,13 @@ namespace RePag
 			D2D1_COLOR_F crfArrow_Move;
 			ID2D1SolidColorBrush* ifArrowColor;
 			FLOAT fScaleArrowThumb;
-			D2D1_POINT_2F ptf3Arrow_Up[3];
-			D2D1_POINT_2F ptf3Arrow_Down[3];
 			ID2D1RoundedRectangleGeometry* ifThumb;
 			D2D1_COLOR_F crfThumb;
 			D2D1_COLOR_F crfThumb_Click;
 			D2D1_COLOR_F crfThumb_Move;
 			ID2D1SolidColorBrush* ifThumbColor;
-			D2D1_RECT_L rclThumb;
-			long lThumb_Hohe;
+			D2D1_RECT_F rcfThumb;
+			float fThumbSize;
 			void __vectorcall CreateThumb(bool bRender);
 
 			protected:
@@ -257,11 +256,11 @@ namespace RePag
 			void __vectorcall WM_LButtonDown(WPARAM wParam, LPARAM lParam);
 			void __vectorcall WM_LButtonUp(WPARAM wParam, LPARAM lParam);
 			void __vectorcall COScrollBarV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcKlassenName, _In_z_ const char* pcFensterName,
-																		 _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
+																		 _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA, bool bHorizontalA);
 
 			public:
 			void __vectorcall COScrollBarV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
-																		 _In_ STDeviceResources* pstDeviceResources);
+																		 _In_ STDeviceResources* pstDeviceResources, bool bHorizontalA);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall GetScrollInfo(_In_ STScrollInfo& stScrollInfoA);
 			void __vectorcall SetScrollInfo(_In_ STScrollInfo& stScrollInfoA);
@@ -287,9 +286,10 @@ namespace RePag
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+																																 _In_ STDeviceResources* pstDeviceResources, bool bHorizontal);
 		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement,
-																																 _In_ STDeviceResources* pstDeviceResources);
+																																 _In_ STDeviceResources* pstDeviceResources, bool bHorizontal);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COTextBox : public COEditLine
 		{
