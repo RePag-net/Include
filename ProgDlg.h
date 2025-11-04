@@ -159,8 +159,8 @@ namespace RePag
       void __vectorcall Menu(long lMenu);
 
     public:
-      void __vectorcall CODialogV(const char* pcFensterName, bool bModalA, LRESULT CALLBACK WndProc_DLG(HWND, unsigned int, WPARAM, LPARAM));
-      void __vectorcall CODialogV(VMEMORY vmSpeicher, const char* pcFensterName, bool bModalA, LRESULT CALLBACK WndProc_DLG(HWND, unsigned int, WPARAM, LPARAM));
+      void __vectorcall CODialogV(const char* pcWindowName, bool bModalA, LRESULT CALLBACK WndProc_DLG(HWND, unsigned int, WPARAM, LPARAM));
+      void __vectorcall CODialogV(VMEMORY vmSpeicher, const char* pcWindowName, bool bModalA, LRESULT CALLBACK WndProc_DLG(HWND, unsigned int, WPARAM, LPARAM));
       VMEMORY __vectorcall COFreiV(void);
       LRESULT(CALLBACK* pfnWndProc_Dialog)(HWND, unsigned int, WPARAM, LPARAM);
       void(__vectorcall* pfnWM_Paint)(CODialog*, PAINTSTRUCT&);
@@ -188,7 +188,7 @@ namespace RePag
       STFensterBau* vstFensterBau;
 
     protected:
-      void __vectorcall COGrafikV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA);
+      void __vectorcall COGrafikV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcWindowName, unsigned int uiIDElementA);
 
     public:
       void __vectorcall FensterStil(DWORD dwFensterStilA);
@@ -211,15 +211,15 @@ namespace RePag
     protected:
 
     public:
-      void __vectorcall COGrafikGruppeV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+      void __vectorcall COGrafikGruppeV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
       void __vectorcall ErstellFensterInRahmen(COGrafik* pGrafik);
       void __vectorcall ErstellFensterInGruppe(COGrafik* pGrafik, long lHoheA, long lBreiteA, long lPos_x, long lPos_y);
       void(__vectorcall* pfnWM_Paint)(COGrafikGruppe*, PAINTSTRUCT&);
       void(__vectorcall* pfnWM_Command)(HWND, unsigned int, WPARAM, LPARAM);
       void __vectorcall SetzSichtbar(bool bSichtbar);
     };
-    __declspec(dllimport) COGrafikGruppe* __vectorcall COGrafikGruppeV(const char* pcFensterName, unsigned int uiIDElement);
-    __declspec(dllimport) COGrafikGruppe* __vectorcall COGrafikGruppeV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+    __declspec(dllimport) COGrafikGruppe* __vectorcall COGrafikGruppeV(const char* pcWindowName, unsigned int uiIDElement);
+    __declspec(dllimport) COGrafikGruppe* __vectorcall COGrafikGruppeV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
     //---------------------------------------------------------------------------------------------------------------------------------------
     __declspec(dllimport) VMEMORY __vectorcall VMDialog(void);
     __declspec(dllimport) HINSTANCE __vectorcall Hinstance(void);

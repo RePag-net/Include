@@ -76,30 +76,26 @@ namespace RePag
 			friend LRESULT CALLBACK WndProc_TextLine(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
 
 			private:
+			void __vectorcall OnRender(void);
 
 			protected:
-			//LOGFONT lfSchrift;
-			//HFONT hFont;
-			COStringA* vasInhalt;
+			COStringA* vasContent;
 			STFont stFont;
 			IDWriteTextFormat* ifText;
 			D2D1_COLOR_F crfText;
 			ID2D1SolidColorBrush* ifTextColor;
-			long lZeichen_mittel;
-			long lZeichen_hohe;
-			unsigned char ucSchriftausrichtung;
-			void __vectorcall OnRender(void);
-			void __vectorcall OnPaint(void);
+			D2D_SIZE_F szfSign;
+			float fTextLine_maxwidth;
+			unsigned char ucTextAlignment;
 			void __vectorcall WM_Create(void);
 			void __vectorcall CharacterMetric(void);
-			//void __vectorcall Schriftausrichtung(HDC hdc, SIZE& stZeichengrosse, POINT& ptText);
 			void __vectorcall TextAlignment(_In_ IDWriteTextLayout* ifTextLayout, _Out_ float& fTextWidth, _Out_ D2D1_POINT_2F& ptfText);
 			void __vectorcall TextAlignment(_In_ IDWriteTextLayout* ifTextLayout, _Out_ float& fTextWidth, _Out_ D2D1_RECT_F& rcfText);
-			void __vectorcall COTextLineV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcKlassenName, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
-																		_In_ STDeviceResources* pstDeviceResourcesA);
+			void __vectorcall COTextLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName,
+																		_In_ unsigned int uiIDElementA,	_In_ STDeviceResources* pstDeviceResourcesA);
 
 			public:
-			void __vectorcall COTextLineV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_z_ unsigned int uiIDElementA,
+			void __vectorcall COTextLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_z_ unsigned int uiIDElementA,
 																		_In_ STDeviceResources* pstDeviceResourcesA);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall Text(_In_z_ char* pcText);
@@ -108,11 +104,12 @@ namespace RePag
 			void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
 			void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
 			void __vectorcall TextAlignment(_In_ unsigned char ucTextAlignment);
+			void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) COTextLine* __vectorcall COTextLineV(_In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
-		__declspec(dllimport) COTextLine* __vectorcall COTextLineV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, unsigned int uiIDElement,
+		__declspec(dllimport) COTextLine* __vectorcall COTextLineV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COTextLine* __vectorcall COTextLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, unsigned int uiIDElement,
 																															 _In_ STDeviceResources* pstDeviceResourcesA);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COEditLine : public COTextLine
@@ -151,8 +148,6 @@ namespace RePag
 			D2D1_COLOR_F crfCaret;
 			ID2D1SolidColorBrush* ifSelectBackColor;
 			ID2D1SolidColorBrush* ifCaretColor;
-			//STRGBFarbe stSelectSchriftfarbe;
-			//STRGBFarbe stSelectHintergrundfarbe;
 			void __vectorcall OnRender(_In_ bool bCaret);
 			void __vectorcall OnPaint(void);
 			void __vectorcall WM_Create(void);
@@ -171,11 +166,11 @@ namespace RePag
 			void __vectorcall DeleteCaretPos(void);
 			void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
 			void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& crfCaretA);
-			void __vectorcall COEditLineV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcKlassenName, _In_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
+			void __vectorcall COEditLineV(_In_ const VMEMORY vmMemory, _In_ const char* pcClassName, _In_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		_In_ STDeviceResources* pstDeviceResourcesA);
 
 			public:
-			void __vectorcall COEditLineV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
+			void __vectorcall COEditLineV(_In_ const VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		_In_ STDeviceResources* pstDeviceResourcesA);
 			VMEMORY __vectorcall COFreiV(void);
 			void(__vectorcall* pfnWM_Char_Return)(COEditLine*);
@@ -201,22 +196,22 @@ namespace RePag
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) COEditLine* __vectorcall COEditLineV(_In_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
-		__declspec(dllimport) COEditLine* __vectorcall COEditLineV(_In_ const VMEMORY vmSpeicher, _In_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+		__declspec(dllimport) COEditLine* __vectorcall COEditLineV(_In_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COEditLine* __vectorcall COEditLineV(_In_ const VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																															 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		typedef struct STScrollInfo
 		{
-			long lMin;
-			long lMax;
-			ULONG ulPage;
-			long  lPos;
+			float fMax;
+			float fPage;
+			float fPos;
+			D2D_SIZE_F szfSign;
 		} STScrollInfo;
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COScrollBar : public COGraphic
 		{
 
-			friend LRESULT CALLBACK WndProc_ScrollBar(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
+			friend LRESULT CALLBACK WndProc_ScrollBar(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
 			bool bHorizontal;
@@ -243,7 +238,8 @@ namespace RePag
 			D2D1_COLOR_F crfThumb_Move;
 			ID2D1SolidColorBrush* ifThumbColor;
 			D2D1_RECT_F rcfThumb;
-			float fThumbSize;
+			float fThumb;
+			float fStep;
 			void __vectorcall CreateThumb(_In_ bool bRender);
 
 			protected:
@@ -254,11 +250,11 @@ namespace RePag
 			void __vectorcall WM_MouseOver(_In_ WPARAM wParam, _In_ LPARAM lParam);
 			void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 			void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
-			void __vectorcall COScrollBarV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcKlassenName, _In_z_ const char* pcFensterName,
+			void __vectorcall COScrollBarV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName,
 																		 _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA, bool bHorizontalA);
 
 			public:
-			void __vectorcall COScrollBarV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
+			void __vectorcall COScrollBarV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		 _In_ STDeviceResources* pstDeviceResources, bool bHorizontalA);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall GetScrollInfo(_In_ STScrollInfo& stScrollInfoA);
@@ -285,9 +281,9 @@ namespace RePag
 			void __vectorcall OnPaint(void);
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																																 _In_ STDeviceResources* pstDeviceResources, bool bHorizontal);
-		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																																 _In_ STDeviceResources* pstDeviceResources, bool bHorizontal);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COTextBox : public COEditLine
@@ -302,25 +298,26 @@ namespace RePag
 
 			protected:
 			COList* vliText;
-			long lBreitesteZeile;
-			long lRand_rechts;
-			long lRand_unten;
+			float fWidestLine;
+			long lEdge_right;
+			long lEdge_bottom;
 			void __vectorcall WM_Create(void);
 			void __vectorcall WM_Size(_In_ LPARAM lParam);
 			void __vectorcall WM_VScroll(_In_ WPARAM wParam);
 			void __vectorcall WM_HScroll(_In_ WPARAM wParam);
 			void __vectorcall WM_LButtonDown(void);
 			void __vectorcall WM_MouseWheel(_In_ WPARAM wParam, _In_ LPARAM lParam);
-			void __vectorcall SetzScrollHorz(_In_ STScrollInfo& stScrollHorz);
-			void __vectorcall SetzScrollVert(_In_ STScrollInfo& stScrollVert);
-			void __vectorcall GetScrollInfo(_In_ BYTE ucBar, _Out_ STScrollInfo& stScrollInfo);
-			void __vectorcall SetScrollInfo(_In_ BYTE ucBar, _In_ STScrollInfo& stScrollInfo, _In_ bool bredraw);
+			void __vectorcall SetScrollHorz(_In_ STScrollInfo& stScrollHorz);
+			void __vectorcall SetScrollVert(_In_ STScrollInfo& stScrollVert);
+			void __vectorcall GetScrollBar(_In_ BYTE ucBar, _In_ STScrollInfo& stScrollInfo);
+			void __vectorcall SetScrollBar(_In_ BYTE ucBar, _In_ STScrollInfo& stScrollInfo);
+			void __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ D2D_SIZE_F& szfTextPoint);
 			void __vectorcall DeSelect(void);
-			void __vectorcall COTextBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcKlassenName, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
+			void __vectorcall COTextBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																	 _In_ STDeviceResources* pstDeviceResourcesA); // Note: three Numbers uiIDElement, because COScrollBars !!!
 
 			public:
-			void __vectorcall COTextBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
+			void __vectorcall COTextBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																	 _In_ STDeviceResources* pstDeviceResources);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall Text(_In_ char* pcText);
@@ -333,8 +330,8 @@ namespace RePag
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
-		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_ const VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																														 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}

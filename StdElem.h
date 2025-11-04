@@ -119,10 +119,10 @@ namespace RePag
 			void __vectorcall WM_Paint(void);
 			void __vectorcall ZeichenMetric(HWND hWnd);
 			void __vectorcall Schriftausrichtung(HDC hdc, SIZE& stZeichengrosse, POINT& ptText);
-			void __vectorcall COTextZeileV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COTextZeileV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcWindowName, unsigned int uiIDElementA);
 
 		public:
-			void __vectorcall COTextZeileV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COTextZeileV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall Text(char* pcText);
 			void __vectorcall Schriftart(LOGFONT& lfSchriftA);
@@ -132,8 +132,8 @@ namespace RePag
 			void __vectorcall Schriftausrichtung(unsigned char ucSchriftausrichtungA);
 
 		};
-		__declspec(dllimport) COTextZeile* __vectorcall COTextZeileV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COTextZeile* __vectorcall COTextZeileV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COTextZeile* __vectorcall COTextZeileV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COTextZeile* __vectorcall COTextZeileV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COEditZeile : public COTextZeile
 		{
@@ -174,10 +174,10 @@ namespace RePag
 			void __vectorcall WM_LButtonDBClick(WPARAM wParam, LPARAM lParam);
 			void __vectorcall WM_Paint(void);
 			bool __vectorcall ZeichenVorgabe(WPARAM wParam);
-			void __vectorcall COEditZeileV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COEditZeileV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcWindowName, unsigned int uiIDElementA);
 
 		public:
-			void __vectorcall COEditZeileV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COEditZeileV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			void(__vectorcall* pfnWM_Char_Return)(COEditZeile*);
 			void(__vectorcall* pfnWM_Char_Escape)(COEditZeile*);
@@ -199,8 +199,8 @@ namespace RePag
 			void __vectorcall SelectEntfernen(void);
 
 		};
-		__declspec(dllimport) COEditZeile* __vectorcall COEditZeileV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COEditZeile* __vectorcall COEditZeileV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COEditZeile* __vectorcall COEditZeileV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COEditZeile* __vectorcall COEditZeileV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COTextBox : public COEditZeile
 		{
@@ -224,10 +224,10 @@ namespace RePag
 			void __vectorcall SetzScrollHorz(SCROLLINFO& stScrollHorz);
 			void __vectorcall SetzScrollVert(SCROLLINFO& stScrollVert);
 			void __vectorcall DeSelect(void);
-			void __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcWindowName, unsigned int uiIDElementA);
 
 		public:
-			void __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall Text(char* pcText);
 			void __vectorcall Text_NeueZeile(char* pcText);
@@ -238,8 +238,8 @@ namespace RePag
 			void __vectorcall Scroll_Zeile(bool bAbwarts);
 
 		};
-		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COTextBox* __vectorcall COTextBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COEditBox : public COTextBox
 		{
@@ -261,7 +261,7 @@ namespace RePag
 		protected:
 
 		public:
-			void __vectorcall COEditBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COEditBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			void(__vectorcall* pfnWM_Char_ShiftReturn)(COEditBox*);
 			void(__vectorcall* pfnWM_Char_Escape)(COEditBox*);
 			void(__vectorcall* pfnWM_KillFocus)(COEditBox*);
@@ -269,8 +269,8 @@ namespace RePag
 			COStringA* __vectorcall Inhalt(COStringA* vasInhaltA);
 
 		};
-		__declspec(dllimport) COEditBox* __vectorcall COEditBoxV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COEditBox* __vectorcall COEditBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COEditBox* __vectorcall COEditBoxV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COEditBox* __vectorcall COEditBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COListBox : public COTextBox
 		{
@@ -284,10 +284,10 @@ namespace RePag
 			void __vectorcall WM_LButtonUp(LPARAM lParam);
 			void __vectorcall WM_KeyDown(WPARAM wParam);
 			void __vectorcall WM_Char(WPARAM wParam);
-			void __vectorcall COListBoxV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COListBoxV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcWindowName, unsigned int uiIDElementA);
 
 		public:
-			void __vectorcall COListBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COListBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			void(__vectorcall* pfnWM_LButtonDown)(COListBox*);
 			void(__vectorcall* pfnWM_LButtonUp)(COListBox*);
@@ -305,8 +305,8 @@ namespace RePag
 			void __vectorcall DeSelectEintrag(void);
 
 		};
-		__declspec(dllimport) COListBox* __vectorcall COListBoxV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COListBox* __vectorcall COListBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COListBox* __vectorcall COListBoxV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COListBox* __vectorcall COListBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COPasswort : public COEditZeile
 		{
@@ -322,13 +322,13 @@ namespace RePag
 		protected:
 
 		public:
-			void __vectorcall COPasswortV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COPasswortV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall Text(char* pcText);
 
 		};
-		__declspec(dllimport) COPasswort* __vectorcall COPasswortV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COPasswort* __vectorcall COPasswortV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COPasswort* __vectorcall COPasswortV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COPasswort* __vectorcall COPasswortV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COKnopf : public COTextZeile
 		{
@@ -348,10 +348,10 @@ namespace RePag
 			void __vectorcall WM_Char(WPARAM wParam);
 			void __vectorcall WM_LButtonDown(void);
 			void __vectorcall WM_LButtonUp(WPARAM wParam, LPARAM lParam);
-			void __vectorcall COKnopfV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COKnopfV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcWindowName, unsigned int uiIDElementA);
 
 		public:
-			void __vectorcall COKnopfV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COKnopfV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			void(__vectorcall* pfnWM_LButtonDown)(COKnopf*);
 			void(__vectorcall* pfnWM_LButtonUp)(COKnopf*);
 			void __vectorcall Schriftfarbe(unsigned char ucRot, unsigned char ucGrun, unsigned char ucBlau);
@@ -367,8 +367,8 @@ namespace RePag
 			void __vectorcall Freigeben(void);
 
 		};
-		__declspec(dllimport) COKnopf* __vectorcall COKnopfV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COKnopf* __vectorcall COKnopfV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COKnopf* __vectorcall COKnopfV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COKnopf* __vectorcall COKnopfV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COKlappBox : public COListBox
 		{
@@ -388,7 +388,7 @@ namespace RePag
 			protected:
 
 			public:
-				void __vectorcall COEintragZeileV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA, COKlappBox* pKlappBoxA);
+				void __vectorcall COEintragZeileV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA, COKlappBox* pKlappBoxA);
 
 			}; COEintragZeile* ezEintrag;
 			unsigned char ucZeilenhohe_EintragZeile;
@@ -398,7 +398,7 @@ namespace RePag
 		protected:
 
 		public:
-			void __vectorcall COKlappBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COKlappBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			long& __vectorcall Hohe(long& lHoheA);
 			RECT& __vectorcall Fenster(RECT& rcFenster);
@@ -421,8 +421,8 @@ namespace RePag
 			bool __vectorcall SuchUndSetzEintrag(COStringA* vasEintrag, unsigned char& ucIndexA);
 
 		};
-		__declspec(dllimport) COKlappBox* __vectorcall COKlappBoxV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COKlappBox* __vectorcall COKlappBoxV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COKlappBox* __vectorcall COKlappBoxV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COKlappBox* __vectorcall COKlappBoxV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COSchalter : public COKnopf
 		{
@@ -436,10 +436,10 @@ namespace RePag
 			COStringA* vasBeschriftung_ein;
 			COStringA* vasBeschriftung_aus;
 			void __vectorcall Schalten(bool bEinschalten);
-			void __vectorcall COSchalterV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COSchalterV(VMEMORY vmSpeicher, const char* pcKlassenName, const char* pcWindowName, unsigned int uiIDElementA);
 
 		public:
-			void __vectorcall COSchalterV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COSchalterV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			void(__vectorcall* pfnWM_LButtonDown)(COSchalter*);
 			void(__vectorcall* pfnWM_LButtonUp)(COSchalter*);
@@ -450,8 +450,8 @@ namespace RePag
 			void __vectorcall Beschriftung_Aus(const char* pcBeschriftung);
 
 		};
-		__declspec(dllimport) COSchalter* __vectorcall COSchalterV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COSchalter* __vectorcall COSchalterV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COSchalter* __vectorcall COSchalterV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COSchalter* __vectorcall COSchalterV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COSchalterGruppe : public COGrafik
 		{
@@ -470,7 +470,7 @@ namespace RePag
 			protected:
 
 			public:
-				void __vectorcall COWechselSchalterV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA, COSchalterGruppe* pSchalterGruppeA);
+				void __vectorcall COWechselSchalterV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA, COSchalterGruppe* pSchalterGruppeA);
 				bool bGruppe;
 
 			}; COWechselSchalter** vpWechselSchalter;
@@ -486,8 +486,8 @@ namespace RePag
 		protected:
 
 		public:
-			void __vectorcall COSchalterGruppeV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA, unsigned char ucSchalteranzahl, unsigned char ucWechselmodus);
-			void __vectorcall COTabellenKopfV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA, unsigned char ucSchalteranzahl);
+			void __vectorcall COSchalterGruppeV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA, unsigned char ucSchalteranzahl, unsigned char ucWechselmodus);
+			void __vectorcall COTabellenKopfV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA, unsigned char ucSchalteranzahl);
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall ErstellSchalterInGruppe(unsigned char ucSchalterA, long lHoheA, long lBreiteA, long lPos_x, long lPos_y);
 			void __vectorcall SetzAlleSchalter_Aus(void);
@@ -520,8 +520,8 @@ namespace RePag
 			void __vectorcall Schalter_Hintergrundfarbe_3(unsigned char ucSchalterA, unsigned char ucRot, unsigned char ucGrun, unsigned char ucBlau);
 
 		};
-		__declspec(dllimport) COSchalterGruppe* __vectorcall COSchalterGruppeV(const char* pcFensterName, unsigned int uiIDElement, unsigned char ucSchalteranzahl, unsigned char ucWechselmodus);
-		__declspec(dllimport) COSchalterGruppe* __vectorcall COSchalterGruppeV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement, unsigned char ucSchalteranzahl, unsigned char ucWechselmodus);
+		__declspec(dllimport) COSchalterGruppe* __vectorcall COSchalterGruppeV(const char* pcWindowName, unsigned int uiIDElement, unsigned char ucSchalteranzahl, unsigned char ucWechselmodus);
+		__declspec(dllimport) COSchalterGruppe* __vectorcall COSchalterGruppeV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement, unsigned char ucSchalteranzahl, unsigned char ucWechselmodus);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COBalken : public COGrafik
 		{
@@ -541,7 +541,7 @@ namespace RePag
 		protected:
 
 		public:
-			void __vectorcall COBalkenV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COBalkenV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			void __vectorcall SetzPosition_Max(unsigned long ulPosition);
 			void __vectorcall SetzPosition_Min(unsigned long ulPosition);
 			void __vectorcall SetzPosition(unsigned long ulPositionA);
@@ -577,7 +577,7 @@ namespace RePag
 			protected:
 
 			public:
-				void __vectorcall COEditDatumV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA, CODatum* pDatumA);
+				void __vectorcall COEditDatumV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA, CODatum* pDatumA);
 				VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall DatumZeitText(void);
 				COStringA* vasFormat_Datum;
@@ -609,7 +609,7 @@ namespace RePag
 		protected:
 
 		public:
-			void __vectorcall CODatumV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall CODatumV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			VMEMORY __vectorcall COFreiV(void);
 			long& __vectorcall Hohe(long& lHoheA);
 			long& __vectorcall Hohe_EditDatum(long& lHoheA);
@@ -654,8 +654,8 @@ namespace RePag
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) CODatum* __vectorcall CODatumV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) CODatum* __vectorcall CODatumV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) CODatum* __vectorcall CODatumV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) CODatum* __vectorcall CODatumV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COLeuchte : public COGrafik
 		{
@@ -670,15 +670,15 @@ namespace RePag
 		protected:
 
 		public:
-			void __vectorcall COLeuchteV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA);
+			void __vectorcall COLeuchteV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElementA);
 			void __vectorcall Leuchtfarbe(unsigned char ucRot, unsigned char ucGrun, unsigned char ucBlau);
 			void __vectorcall Form(unsigned char ucFormA);
 			void __vectorcall Rand(unsigned char ucRandA);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) COLeuchte* __vectorcall COLeuchteV(const char* pcFensterName, unsigned int uiIDElement);
-		__declspec(dllimport) COLeuchte* __vectorcall COLeuchteV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElement);
+		__declspec(dllimport) COLeuchte* __vectorcall COLeuchteV(const char* pcWindowName, unsigned int uiIDElement);
+		__declspec(dllimport) COLeuchte* __vectorcall COLeuchteV(VMEMORY vmSpeicher, const char* pcWindowName, unsigned int uiIDElement);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
 }
