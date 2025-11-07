@@ -36,22 +36,16 @@ namespace RePag
   namespace DirectX
   {
     //---------------------------------------------------------------------------------------------------------------------------------------
-    constexpr BYTE DLG_LINKS = 1;
-    constexpr BYTE DLG_RECHTS = 2;
-    constexpr BYTE DLG_OBEN = 4;
-    constexpr BYTE DLG_UNTEN = 8;
-    constexpr BYTE DLG_MITTEVERTICAL = 16;
-    constexpr BYTE DLG_MITTEHORIZONTAL = 32;
+    constexpr BYTE DLG_LEFT = 1;
+    constexpr BYTE DLG_RIGHT = 2;
+    constexpr BYTE DLG_TOP = 4;
+    constexpr BYTE DLG_BOTTOM = 8;
+    constexpr BYTE DLG_CENTERVERTICAL = 16;
+    constexpr BYTE DLG_CENTERHORIZONTAL = 32;
     constexpr BYTE DLG_MINIMAL = 64;
     constexpr BYTE DLG_MAXIMAL = 128;
-    constexpr USHORT IDE_DLG_SICHTBAR = 0xFFFF;
-
-    constexpr BYTE HGE_KEINHINTERGRUND = 0;
-    constexpr BYTE HGE_HINTERGRUND = 1;
-    constexpr BYTE HGE_BELEUCHTUNG_H = 2;
-    constexpr BYTE HGE_BELEUCHTUNG_V = 4;
-    constexpr BYTE HGE_RAND_H = 8;
-    constexpr BYTE HGE_RAND_V = 16;
+    constexpr USHORT IDE_DLG_VISIBLE = 0xFFFF;
+    constexpr BYTE IDE_DLG_WM_QUIT = 0xFFFE;
     //---------------------------------------------------------------------------------------------------------------------------------------
     typedef struct STDeviceResources
     {
@@ -67,24 +61,20 @@ namespace RePag
     class __declspec(dllimport) COElement
     {
       private:
-      struct STThread
-      {
-        HANDLE heElement[2];
-        DWORD dwHaupt;
-        DWORD dwAktiv;
-        unsigned char ucFunktion;
-        unsigned char ucWarten;
-      };
-      STThread stThread;
-      HBITMAP hbmBild;
-      bool bHintergrund;
-      unsigned char ucHintergrundeffekt;
-      D2D1_COLOR_F crfBackgroundEffect;
+        struct STThread
+        {
+          HANDLE heElement[2];
+          DWORD dwMain;
+          DWORD dwActiv;
+          unsigned char ucFunction;
+          unsigned char ucWait;
+        };
+        STThread stThread;
 
       protected:
         VMEMORY vmMemory;
         HWND hWndElement;
-        HANDLE htEffekt_Timer;
+        HANDLE htEffect_Timer;
         long lHeight;
         long lWidth;
         POINT ptPosition;
@@ -92,10 +82,8 @@ namespace RePag
         ID2D1SolidColorBrush* ifBackColor;
         RECT rclDirty;
         DXGI_PRESENT_PARAMETERS dxgiPresent;
-        RECT rcEffektrand;
-        //unsigned char ucRahmenbreite;
-        void __vectorcall WM_Create_Element(HWND hWnd);
-        void __vectorcall WM_Size_Element(HWND hWnd, LPARAM lParam);
+        void __vectorcall WM_Create_Element(_In_ HWND hWnd);
+        void __vectorcall WM_Size_Element(_In_ HWND hWnd, _In_ LPARAM lParam);
         inline void __vectorcall ThreadSafe_Begin(void);
         inline void __vectorcall ThreadSafe_End(void);
         void __vectorcall COElementV(_In_ const VMEMORY vmMemoryA, _In_ STDeviceResources* pstDeviceResourcesA);
@@ -108,68 +96,62 @@ namespace RePag
         void __vectorcall CreateWindowSizeDependentResources(void);
 
       public:
-      VMEMORY __vectorcall COFreiV(void);
-      void(__vectorcall* pfnWM_Size)(COElement*, WPARAM, LPARAM);
-      HWND __vectorcall HWND_Element(void);
-      HWND __vectorcall HWND_Main(void);
-      long& __vectorcall Width(long& lWidthA);
-      long& __vectorcall Height(long& lHeightA);
-      long& __vectorcall Pos_X(long& lPos_x);
-      long& __vectorcall Pos_Y(long& lPos_y);
-      POINT& __vectorcall Position(POINT& ptPositionA);
-      RECT& __vectorcall Fenster(RECT& rcFenster);
-      void __vectorcall NeueFensterPosition(long lPos_x, long lPos_y);
-      void __vectorcall NeueFensterPosition(POINT& ptPositionA);
-      void __vectorcall NeuesFenster(long lHeightA, long lWidthA, long lPos_x, long lPos_y);
-      void __vectorcall NeueFensterGrosse(long lHeightA, long lWidthA);
-      void __vectorcall NeueFensterHohe(long lHeightA);
-      void __vectorcall NeueFensterBreite(long lWidthA);
-      void __vectorcall AndernFensterGrosse(long lHeightA, long lWidthA);
-      void __vectorcall AndernFensterPosition(long lPos_x, long lPos_y);
-      void __vectorcall SetBackgroundColor(_In_ unsigned char ucRot, _In_ unsigned char ucGrun, _In_ unsigned char ucBlau, _In_ unsigned char ucAlpha);
-      void __vectorcall SetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
-      void __vectorcall GetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
-      void __vectorcall Hintergrundeffekt(unsigned char ucEffekt);
-      void __vectorcall Effekt_Timer(bool bStarten, unsigned long ulInterval_msek, void CALLBACK fnEffekt_Timer(COElement*, bool bTimerOrWaitFired));
-      //void __vectorcall UpdateFenster(RECT* prcFenster, bool bUpdateHintergrund, bool bUpdateHintergrundeffekt);
-      void __vectorcall SetzHintergrund(bool bMitHintergrund);
-      void __vectorcall SetzVerfugbar(bool bVerfugbar);
-      bool __vectorcall Verfugbar(void);
-      void __vectorcall Loschen(void);
+        VMEMORY __vectorcall COFreiV(void);
+        void(__vectorcall* pfnWM_Size)(_In_ COElement*, _In_ WPARAM, _In_ LPARAM);
+        HWND __vectorcall HWND_Element(void);
+        HWND __vectorcall HWND_Main(void);
+        long& __vectorcall Width(_Out_ long& lWidthA);
+        long& __vectorcall Height(_Out_ long& lHeightA);
+        long& __vectorcall Pos_X(_Out_ long& lPos_x);
+        long& __vectorcall Pos_Y(_Out_ long& lPos_y);
+        POINT& __vectorcall Position(_Out_ POINT& ptPositionA);
+        RECT& __vectorcall Window(_Out_ RECT& rcWindow);
+        void __vectorcall NewWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
+        void __vectorcall NewWindowPosition(_In_ POINT& ptPositionA);
+        void __vectorcall NewWindow(long lHeightA, long lWidthA, long lPos_x, long lPos_y);
+        void __vectorcall NewWindowSize(_In_ long lHeightA, _In_ long lWidthA);
+        void __vectorcall NewWindowHeight(_In_ long lHeightA);
+        void __vectorcall NewWindowWidth(_In_ long lWidthA);
+        void __vectorcall ChangeWindowSize(_In_ long lHeightA, _In_ long lWidthA);
+        void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
+        void __vectorcall SetBackgroundColor(_In_ unsigned char ucRot, _In_ unsigned char ucGrun, _In_ unsigned char ucBlau, _In_ unsigned char ucAlpha);
+        void __vectorcall SetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
+        void __vectorcall GetBackgroundColor(_Out_ D2D1_COLOR_F& crfBackgroundA);
+        void __vectorcall Effect_Timer(_In_ bool bStart, _In_ unsigned long ulInterval_msek, _In_ void CALLBACK fnEffect_Timer(COElement*, bool bTimerOrWaitFired));
 
     };
     //---------------------------------------------------------------------------------------------------------------------------------------
     class __declspec(dllimport) CODialog : public COElement
     {
-      friend LRESULT CALLBACK WndProc_Dialog(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
-      friend DWORD WINAPI thWM_Command_Dialog(void* pvParam);
+      friend LRESULT CALLBACK WndProc_Dialog(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+      friend DWORD WINAPI thWM_Command_Dialog(_In_ void* pvParam);
 
       private:
-        struct STFensterBau
+        struct STWindowConstraction
         {
           COStringA asName;
           VMBLOCK vbTitel;
-          DWORD dwFensterStil;
-          DWORD dwErweitertStil;
-          WNDCLASSEX wndKlasse;
+          DWORD dwWindowStyle;
+          DWORD dwExtendStyle;
+          WNDCLASSEX wndClass;
         };
-        STFensterBau* vstFensterBau;
-        long lRuckgabe;
+        STWindowConstraction* vstWindowConstraction;
+        long lReturn;
         bool bModal;
         DWORD dwThreadID;
         void __vectorcall WM_Move_Dialog(void);
         void __vectorcall WM_Paint_Dialog(void);
-        void __vectorcall WM_Command_Dialog(unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
-        LRESULT(CALLBACK* pfnWndProc_DLGDialog)(HWND, unsigned int, WPARAM, LPARAM);
+        void __vectorcall WM_Command_Dialog(_In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+        LRESULT(CALLBACK* pfnWndProc_DLGDialog)(_In_ HWND, _In_ unsigned int, _In_ WPARAM, _In_ LPARAM);
 
       protected:
         void __vectorcall WM_Create(void);
-        void __vectorcall FensterStil(DWORD dwFensterStilA);
-        void __vectorcall ErweitertStil(DWORD dwErweitertStilA);
-        void __vectorcall FensterTitel(const char* pcFensterTitel);
-        void __vectorcall Icon(long lIcon);
-        void __vectorcall IconSm(long lIconSm);
-        void __vectorcall Menu(long lMenu);
+        void __vectorcall WindowStyle(_In_ DWORD dwFensterStilA);
+        void __vectorcall ExtendStyle(_In_ DWORD dwErweitertStilA);
+        void __vectorcall WindowTitel(_In_ const char* pcFensterTitel);
+        void __vectorcall Icon(_In_ long lIcon);
+        void __vectorcall IconSm(_In_ long lIconSm);
+        void __vectorcall Menu(_In_ long lMenu);
 
       public:
         void __vectorcall CODialogV(_In_z_ const char* pcWindowName, _In_ bool bModalA, _In_ LRESULT CALLBACK WndProc_DLG(HWND, unsigned int, WPARAM, LPARAM),
@@ -177,29 +159,27 @@ namespace RePag
         void __vectorcall CODialogV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ bool bModalA,
                                     _In_ LRESULT CALLBACK WndProc_DLG(HWND, unsigned int, WPARAM, LPARAM), _In_ STDeviceResources* pstDeviceResourcesA);
         VMEMORY __vectorcall COFreiV(void);
-        LRESULT(CALLBACK* pfnWndProc_Dialog)(HWND, unsigned int, WPARAM, LPARAM);
-        void(__vectorcall* pfnWM_Paint)(CODialog*, PAINTSTRUCT&);
-        void(__vectorcall* pfnWM_Move)(CODialog*, LPARAM);
-        void(__vectorcall* pfnWM_Command)(HWND, unsigned int, WPARAM, LPARAM);
-        void __vectorcall CreateWindowDialog(HWND hWndMain, long lHeightA, long lWidthA, long lPos_x, long lPos_y);
-        long __vectorcall SetzSichtbar(bool bSichtbar, unsigned char ucAusrichtung, long lRuckgabeA);
-        void __vectorcall Schliessen(void);
-        LOGFONT lfSchrift;
+        LRESULT(CALLBACK* pfnWndProc_Dialog)(_In_ HWND, _In_ unsigned int, _In_ WPARAM, _In_ LPARAM);
+        void(__vectorcall* pfnWM_Move)(_In_ CODialog*, LPARAM);
+        void(__vectorcall* pfnWM_Command)(_In_ HWND, _In_ unsigned int, _In_ WPARAM, _In_ LPARAM);
+        void __vectorcall CreateWindowDialog(_In_ HWND hWndMain, _In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
+        long __vectorcall SetVisible(_In_ bool bSichtbar, _In_ unsigned char ucAusrichtung, _In_ long lRuckgabeA);
+        void __vectorcall Close(void);
 
     };
     //---------------------------------------------------------------------------------------------------------------------------------------
     class __declspec(dllimport) COGraphic : public COElement
     {
       private:
-        struct STFensterBau
+        struct STWindowConstraction
         {
-          VMBLOCK vbKlassenName;
-          COStringA asFensterName;
-          DWORD dwFensterStil;
-          DWORD dwErweitertStil;
+          VMBLOCK vbClassName;
+          COStringA asWindowName;
+          DWORD dwWindowStyle;
+          DWORD dwExtendStyle;
           unsigned int uiIDElement;
         };
-        STFensterBau* vstFensterBau;
+        STWindowConstraction* vstWindowConstraction;
 
         protected:
         void __vectorcall COGraphicV(_In_ const VMEMORY vmMemory, _In_ const char* pcClassName, _In_ const char* pcWindowName, _In_ unsigned int uiElementA,
@@ -208,34 +188,33 @@ namespace RePag
 
       public:
         VMEMORY __vectorcall COFreiV(void);
-        void __vectorcall FensterStil(DWORD dwFensterStilA);
-        void __vectorcall ErweitertStil(DWORD dwErweitertStilA);
-        void __vectorcall CreateWindowGraphic(HWND hWndMain, long lHeightA, long lWidthA, long lPos_x, long lPos_y);
+        void __vectorcall WindowStyle(_In_ DWORD dwWindowStyleA);
+        void __vectorcall ExtendStyle(_In_ DWORD dwExtendStyleA);
+        void __vectorcall CreateWindowGraphic(_In_ HWND hWndMain, _In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
         unsigned int __vectorcall IDElement(void);
-        void __vectorcall SetVisible(bool bVisible);
+        void __vectorcall SetVisible(_In_ bool bVisible);
         bool __vectorcall Visible(void);
     };
     //---------------------------------------------------------------------------------------------------------------------------------------
     class __declspec(dllimport) COGraphicGroup : public COGraphic
     {
-      friend LRESULT CALLBACK WndProc_GraphicGroup(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
-      friend DWORD WINAPI thWM_Command_GraphicGroup(void* pvParam);
+      friend LRESULT CALLBACK WndProc_GraphicGroup(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+      friend DWORD WINAPI thWM_Command_GraphicGroup(_In_ void* pvParam);
 
-    private:
-      void __vectorcall WM_Paint(void);
-      void __vectorcall WM_Command_GrafikGruppe(unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
+      private:
+        void __vectorcall WM_Paint(void);
+        void __vectorcall WM_Command_GrafikGruppe(_In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
-    protected:
+      protected:
 
-    public:
-      void __vectorcall COGraphicGroupV(_In_ const VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiDElementA,
-                                        _In_ STDeviceResources* pstDeviceResourcesA);
-      void __vectorcall ErstellFensterInRahmen(COGraphic* pGraphic);
-      void __vectorcall ErstellFensterInGruppe(COGraphic* pGraphic, long lHeightA, long lWidthA, long lPos_x, long lPos_y);
-      void(__vectorcall* pfnWM_Paint)(COGraphicGroup*, PAINTSTRUCT&);
-      void(__vectorcall* pfnWM_Command)(HWND, unsigned int, WPARAM, LPARAM);
-      void __vectorcall SetzSichtbar(bool bSichtbar);
+      public:
+        void __vectorcall COGraphicGroupV(_In_ const VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiDElementA,
+                                          _In_ STDeviceResources* pstDeviceResourcesA);
+        void __vectorcall CreteWindowInGroup(_In_ COGraphic* pGraphic, _In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
+        void(__vectorcall* pfnWM_Command)(_In_ HWND, _In_ unsigned int, _In_ WPARAM, _In_ LPARAM);
+        void __vectorcall SetVisible(_In_ bool bVisible);
     };
+    //---------------------------------------------------------------------------------------------------------------------------------------
     __declspec(dllimport) COGraphicGroup* __vectorcall COGraphicGroupV(_In_ const char* pcWindowName, _In_ unsigned int uiIDElement,
                                                                        _In_ STDeviceResources* pstDeviceResourcesA);
     __declspec(dllimport) COGraphicGroup* __vectorcall COGraphicGroupV(_In_ const VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiIDElement,
@@ -245,10 +224,8 @@ namespace RePag
     __declspec(dllimport) HINSTANCE __vectorcall Hinstance(void);
     __declspec(dllimport) HACCEL __vectorcall Accelerator(void);
     __declspec(dllimport) HANDLE __vectorcall TimerQueue(void);
-    __declspec(dllimport) void __vectorcall Cursorform(const char* pcCursor);
-    __declspec(dllimport) void __vectorcall EinfugenKurzTasten(const ACCEL* pacTasten, int iAnzahl);
-    __declspec(dllimport) ID2D1Factory7* __vectorcall D2D1Factory7(void);
-    __declspec(dllimport) ID3D11Device5* __vectorcall D3D11Device5(void);
+    __declspec(dllimport) void __vectorcall Cursorform(_In_ const char* pcCursor);
+    __declspec(dllimport) void __vectorcall InsertAccelerator(_In_ const ACCEL* pacTasten, _In_ int iNumber);
     __declspec(dllimport) HRESULT __vectorcall CreateDeviceIndependentResources(_Out_ STDeviceResources* pstDeviceResources);
     __declspec(dllimport) HRESULT __vectorcall CreateDeviceResources(_Out_ STDeviceResources* pstDeviceResources);
     //---------------------------------------------------------------------------------------------------------------------------------------

@@ -60,6 +60,12 @@ namespace RePag
 		#define LEF_RUND 0
 		#define LEF_ECKIG 1
 
+		constexpr BYTE SBI_MAX = 1;
+		constexpr BYTE SBI_PAGE = 2;
+		constexpr BYTE SBI_POS = 4;
+		constexpr BYTE SBI_SIGN_WIDTH = 8;
+		constexpr BYTE SBI_SIGN_HEIGHT = 16;
+
 		typedef struct STFont
 		{
 			const WCHAR* fontFamilyName;
@@ -205,8 +211,11 @@ namespace RePag
 			float fMax;
 			float fPage;
 			float fPos;
+			BYTE ucMask;
 			D2D_SIZE_F szfSign;
 		} STScrollInfo;
+
+
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COScrollBar : public COGraphic
 		{
@@ -240,6 +249,7 @@ namespace RePag
 			D2D1_RECT_F rcfThumb;
 			float fThumb;
 			float fStep;
+			void __vectorcall Geometry(void);
 			void __vectorcall CreateThumb(_In_ bool bRender);
 
 			protected:
@@ -250,6 +260,8 @@ namespace RePag
 			void __vectorcall WM_MouseOver(_In_ WPARAM wParam, _In_ LPARAM lParam);
 			void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 			void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
+			void __vectorcall WM_VScroll(_In_ WPARAM wParam);
+			void __vectorcall WM_HScroll(_In_ WPARAM wParam);
 			void __vectorcall COScrollBarV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName,
 																		 _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA, bool bHorizontalA);
 
@@ -259,6 +271,8 @@ namespace RePag
 			VMEMORY __vectorcall COFreiV(void);
 			void __vectorcall GetScrollInfo(_In_ STScrollInfo& stScrollInfoA);
 			void __vectorcall SetScrollInfo(_In_ STScrollInfo& stScrollInfoA);
+			void __vectorcall NewWidth(_In_ long lWidthA);
+			void __vectorcall NewHeight(_In_ long lHeightA);
 			void __vectorcall ScaleArrowThumb(_In_ float fScale);
 			void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
 			void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
@@ -323,7 +337,7 @@ namespace RePag
 			void __vectorcall Text(_In_ char* pcText);
 			void __vectorcall Text_NeueZeile(_In_ char* pcText);
 			unsigned long __vectorcall Zeilenanzahl(void);
-			long __vectorcall BreitesteZeile(void);
+			float __vectorcall WidestLine(void);
 			void __vectorcall Scroll_Anfang(void);
 			void __vectorcall Scroll_Ende(void);
 			void __vectorcall Scroll_Zeile(_In_ bool bAbwarts);
