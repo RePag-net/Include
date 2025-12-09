@@ -34,12 +34,12 @@ namespace RePag
 	namespace DirectX
 	{
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		#define TXA_OBEN 0
-		#define TXA_LINKS 1
-		#define TXA_RECHTS 2
-		#define TXA_UNTEN 4
-		#define TXA_MITTEVERTICAL 8
-		#define TXA_MITTEHORIZONTAL 16
+		#define TXA_TOP 0
+		#define TXA_LEFT 1
+		#define TXA_RIGHT 2
+		#define TXA_BOTTOM 4
+		#define TXA_CENTERVERTICAL 8
+		#define TXA_CENTERHORIZONTAL 16
 
 		#define ZV_KEINE 0
 		#define ZV_BUCHSTABEN 1
@@ -110,7 +110,7 @@ namespace RePag
 				COStringA* __vectorcall Content(_Out_ COStringA* vasInhaltA);
 				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
 				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
-				void __vectorcall TextAlignment(_In_ unsigned char ucTextAlignment);
+				void __vectorcall TextAlignment(_In_ unsigned char ucTextAlignmentA);
 				void __vectorcall OnPaint(void);
 
 		};
@@ -132,23 +132,22 @@ namespace RePag
 				bool __vectorcall ZeichenMaske_FestRechts(void);
 				bool __vectorcall ZeichenMaske_FestLinks(void);
 				void __vectorcall DeSelect(void);
-				void __vectorcall Select_Loschen();
-				void __vectorcall ScrollRight(SIZE& stZeichengrosse);
-				void __vectorcall ScrollLeft(SIZE& stZeichengrosse);
+				void __vectorcall Select_Loschen(void);
+				void __vectorcall ScrollRight(_In_ D2D_SIZE_F& szfTextPoint);
+				void __vectorcall ScrollLeft(_In_ D2D_SIZE_F& szfTextPoint);
 
 			protected:
 				HMENU hMenu;
-				POINT ptlCaret;
 				HANDLE htCaret;
 				HANDLE heCaret;
+				D2D_POINT_2F ptfCaret;
+				BYTE ucCaretStrength;
 				char cSelect;
-				RECT rclSelect;
-				RECT rclScroll;
-				POINT ptlScrollOffset;
-				long lTextPos;
+				D2D1_RECT_F rcfSelect;
+				float fTextPos;
 				unsigned long ulZeichen_max;
 				unsigned char ucZeichenVorgabe;
-				unsigned long ulZeichenPos;
+				unsigned long ulCharacterPos;
 				unsigned long ulSelectPos;
 				D2D1_COLOR_F crfSelectText;
 				D2D1_COLOR_F crfSelectBack;
@@ -169,7 +168,8 @@ namespace RePag
 				void __vectorcall WM_MouseMove(WPARAM wParam, LPARAM lParam);
 				void __vectorcall WM_LButtonDBClick(WPARAM wParam, LPARAM lParam);
 				bool __vectorcall ZeichenVorgabe(WPARAM wParam);
-				void __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ SIZE& stTextPoint);
+				void __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ D2D_SIZE_F& szfTextPoint);
+				inline long __vectorcall FloatToLong(_In_ float fNumber);
 				void __vectorcall DeleteCaretPos(void);
 				void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
 				void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& crfCaretA);
@@ -200,6 +200,7 @@ namespace RePag
 				COStringA* __vectorcall Zeichenmaske(COStringA* pasZeichenmaske);
 				void __vectorcall SelectAlles(void);
 				void __vectorcall SelectEntfernen(void);
+				void __vectorcall CaretStrength(BYTE ucCaretStrengthA);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -272,7 +273,7 @@ namespace RePag
 			VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall GetScrollInfo(_In_ STScrollInfo& siScrollInfoA);
 				void __vectorcall SetScrollInfo(_In_ STScrollInfo& siScrollInfoA);
-				void __vectorcall NewSize(_In_ long lHeightA, _In_ long lWidthA);
+				void __vectorcall NewSize(_In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall NewWidth(_In_ long lWidthA);
 				void __vectorcall NewHeight(_In_ long lHeightA);
 				void __vectorcall ScaleArrowThumb(_In_ float fScale);
@@ -309,6 +310,7 @@ namespace RePag
 			private:
 				COScrollBar* sbHorizontal;
 				COScrollBar* sbVertical;
+				BYTE ucScrollBarSize;
 				void __vectorcall CreateText(void);
 				void __vectorcall OnRender(void);
 				void __vectorcall ChangeSizeVisibleScrollBars(void);
@@ -317,13 +319,12 @@ namespace RePag
 				COList* vliText;
 				void __vectorcall WM_Create(void);
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
-				void __vectorcall WM_VScroll(_In_ WPARAM wParam);
-				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_VHScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_KeyDown(_In_ WPARAM wParam);
 				void __vectorcall WM_LButtonDown(void);
+				void __vectorcall WM_RButtonDown(void);
 				void __vectorcall WM_MouseWheel(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall GetScrollBar(_In_ BYTE ucBar, _In_ STScrollInfo& siScrollInfo);
-				void __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ D2D_SIZE_F& szfTextPoint);
-				inline long& __vectorcall FloatToLong(_In_ float fZahl, _Out_ long& lZahl);
 				void __vectorcall DeSelect(void);
 				void __vectorcall COTextBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		 _In_ STDeviceResources* pstDeviceResourcesA); // Note: three numbers uiIDElement, because COScrollBars !!!
@@ -333,11 +334,12 @@ namespace RePag
 																		 _In_ STDeviceResources* pstDeviceResources);
 				VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall Text(_In_ char* pcText);
-				void __vectorcall Text_NeueZeile(_In_ char* pcText);
-				unsigned long __vectorcall Zeilenanzahl(void);
-				void __vectorcall Scroll_Anfang(void);
-				void __vectorcall Scroll_Ende(void);
-				void __vectorcall Scroll_Zeile(_In_ bool bAbwarts);
+				void __vectorcall Text_NewLine(_In_ char* pcText, _In_ bool bDraw);
+				unsigned long __vectorcall LineNumbers(void);
+				void __vectorcall Scroll_Begin(void);
+				void __vectorcall Scroll_End(void);
+				void __vectorcall Scroll_Line(_In_ BYTE ucDown_UP);
+				void __vectorcall ScrollBarSize(_In_ BYTE ucWidth_Height);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
