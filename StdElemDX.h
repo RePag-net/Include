@@ -122,10 +122,11 @@ namespace RePag
 		class __declspec(dllexport) COEditLine : public COTextLine
 		{
 			friend LRESULT CALLBACK WndProc_EditLine(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
-			friend void CALLBACK Timer_Caret(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
+			friend void CALLBACK Timer_Caret_EditLine(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
 
 			private:
 				COStringA* vasZeichenMaske;
+				float fTextPos;
 				bool __vectorcall ZeichenMaske_Einfugen(_In_ WPARAM wParam);
 				bool __vectorcall ZeichenMaske_Einfugen_Prufen(_In_ WPARAM wParam, _In_ VMBLOCK vbZeichen_Maske);
 				bool __vectorcall ZeichenMaske_Loschen(void);
@@ -142,7 +143,6 @@ namespace RePag
 				BYTE ucCaretStrength;
 				char cSelect;
 				D2D1_RECT_F rcfSelect;
-				float fTextPos;
 				unsigned long ulZeichen_max;
 				unsigned char ucZeichenVorgabe;
 				unsigned long ulCharacterPos;
@@ -314,7 +314,7 @@ namespace RePag
 			protected:
 				COList* vliText;
 				BYTE ucScrollBarSize;
-				void __vectorcall OnRender(void);
+				void __vectorcall OnRender(_In_ bool bCaret);
 				void __vectorcall WM_Create(void);
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_VHScroll(_In_ WPARAM wParam);
@@ -323,6 +323,7 @@ namespace RePag
 				void __vectorcall WM_MouseWheel(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall GetScrollBar(_In_ BYTE ucBar, _Out_ STScrollInfo& siScrollInfo);
 				void __vectorcall SetScrollBar(_In_ BYTE ucBar, _In_ STScrollInfo& stScrollInfo);
+				void __vectorcall DeSelect(void);
 				void __vectorcall COTextBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		 _In_ STDeviceResources* pstDeviceResourcesA); // Note: three numbers uiIDElement, because COScrollBars !!!
 
@@ -336,7 +337,8 @@ namespace RePag
 				void __vectorcall Scroll_Begin(void);
 				void __vectorcall Scroll_End(void);
 				void __vectorcall Scroll_Line(_In_ BYTE ucDown_UP);
-				void __vectorcall ScrollBarSize(_In_ BYTE ucWidth_Height);
+				void __vectorcall SetScrollBarSize(_In_ BYTE ucWidth_Height);
+				BYTE __vectorcall GetScrollBarSize(_In_ BYTE ucBar, _Out_ BYTE ucWidth_Height);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -349,41 +351,78 @@ namespace RePag
 			friend LRESULT CALLBACK WndProc_ListBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
-			unsigned char ucIndex;
+				unsigned char ucIndex;
 
 			protected:
-			void __vectorcall WM_LButtonUp(_In_ LPARAM lParam);
-			void __vectorcall WM_VScroll(_In_ WPARAM wParam);
-			void __vectorcall WM_HScroll(_In_ WPARAM wParam);
-			void __vectorcall WM_KeyDown(_In_ WPARAM wParam);
-			void __vectorcall WM_Char(_In_ WPARAM wParam);
-			void __vectorcall DeSelect(void);
-			void __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcKlassenName, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA,
-																	 _In_ STDeviceResources* pstDeviceResourcesA); // Note: three numbers uiIDElement, because COScrollBars by COTextBox!!!
+				void __vectorcall WM_LButtonUp(_In_ LPARAM lParam);
+				void __vectorcall WM_VScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_KeyDown(_In_ WPARAM wParam);
+				void __vectorcall WM_Char(_In_ WPARAM wParam);
+				void __vectorcall DeSelect(void);
+				void __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																		 _In_ STDeviceResources* pstDeviceResourcesA); // Note: three numbers uiIDElement, because COScrollBars by COTextBox!!!
 
 			public:
-			void __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
-			VMEMORY __vectorcall COFreiV(void);
-			void(__vectorcall* pfnWM_LButtonDown)(_In_ COListBox*);
-			void(__vectorcall* pfnWM_LButtonUp)(_In_ COListBox*);
-			void(__vectorcall* pfnWM_Char_Return)(_In_ COListBox*);
-			void(__vectorcall* pfnWM_Char_Escape)(_In_ COListBox*);
-			void(__vectorcall* pfnWM_KillFocus)(_In_ COListBox*);
-			bool(__vectorcall* pfnWM_Command)(_In_ COListBox*, _In_ WPARAM);
-			bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndexA);
-			unsigned char __vectorcall GetSelectIndex(void);
-			COStringA* __vectorcall SelectEnum(_Out_ COStringA* vasEnum);
-			COStringA* __vectorcall SetAndSearchEnum(_In_ unsigned char ucIndexA, _Out_ COStringA* vasEnum);
-			bool __vectorcall SearchEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
-			bool __vectorcall SearchAndSetEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
-			unsigned long __vectorcall NUmberEnum(void);
-			void __vectorcall DeSelectEnum(void);
-			void __vectorcall Test(void);
+				void __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
+				VMEMORY __vectorcall COFreiV(void);
+				void(__vectorcall* pfnWM_LButtonDown)(_In_ COListBox*);
+				void(__vectorcall* pfnWM_LButtonUp)(_In_ COListBox*);
+				void(__vectorcall* pfnWM_Char_Return)(_In_ COListBox*);
+				void(__vectorcall* pfnWM_Char_Escape)(_In_ COListBox*);
+				void(__vectorcall* pfnWM_KillFocus)(_In_ COListBox*);
+				bool(__vectorcall* pfnWM_Command)(_In_ COListBox*, _In_ WPARAM);
+				bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndexA);
+				unsigned char __vectorcall GetSelectIndex(void);
+				COStringA* __vectorcall SelectEnum(_Out_ COStringA* vasEnum);
+				COStringA* __vectorcall SetAndSearchEnum(_In_ unsigned char ucIndexA, _Out_ COStringA* vasEnum);
+				bool __vectorcall SearchEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
+				bool __vectorcall SearchAndSetEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
+				unsigned long __vectorcall NUmberEnum(void);
+				void __vectorcall DeSelectEnum(void);
+				void __vectorcall Test(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllimport) COListBox* __vectorcall COListBoxV(_In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
-		__declspec(dllimport) COListBox* __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElement,
+		__declspec(dllimport) COListBox* __vectorcall COListBoxV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COListBox* __vectorcall COListBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
+																														 _In_ STDeviceResources* pstDeviceResources);
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllimport) COEditBox : public COTextBox
+		{
+			friend LRESULT CALLBACK WndProc_EditBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+			friend void CALLBACK Timer_Caret_EditBox(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
+
+			private:
+				long lLine;
+				void* pvLine;
+				void __vectorcall WM_SetFocus(void);
+				void __vectorcall WM_VScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
+				void __vectorcall WM_KeyDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall WM_Char(_In_ WPARAM wParam);
+				bool __vectorcall WM_Command(_In_ WPARAM wParam);
+				void __vectorcall WM_ContexMenu(_In_ LPARAM lParam);
+				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall BreitesteZeile(_In_ HDC hdc);
+				void __vectorcall Select_Loschen(_In_ HDC hdc);
+
+			protected:
+
+			public:
+				void __vectorcall COEditBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																		 _In_ STDeviceResources* pstDeviceResources); // Note: three numbers uiIDElement, because COScrollBars by COTextBox!!!
+				void(__vectorcall* pfnWM_Char_ShiftReturn)(_In_ COEditBox*);
+				void(__vectorcall* pfnWM_Char_Escape)(_In_ COEditBox*);
+				void(__vectorcall* pfnWM_KillFocus)(_In_ COEditBox*);
+				bool(__vectorcall* pfnWM_Command)(_In_ COEditBox*, _In_ WPARAM);
+				COStringA* __vectorcall Content(_Out_ COStringA* vasInhaltA);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		__declspec(dllimport) COEditBox* __vectorcall COEditBoxV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COEditBox* __vectorcall COEditBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																														 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
