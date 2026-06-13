@@ -126,6 +126,7 @@ namespace RePag
 
 			private:
 				COStringA* vasZeichenMaske;
+				float fTextPos;
 				bool __vectorcall ZeichenMaske_Einfugen(_In_ WPARAM wParam);
 				bool __vectorcall ZeichenMaske_Einfugen_Prufen(_In_ WPARAM wParam, _In_ VMBLOCK vbZeichen_Maske);
 				bool __vectorcall ZeichenMaske_Loschen(void);
@@ -135,7 +136,6 @@ namespace RePag
 				void __vectorcall Select_Loschen(void);
 
 			protected:
-				float fTextPos;
 				HMENU hMenu;
 				HANDLE htCaret;
 				HANDLE heCaret;
@@ -251,6 +251,7 @@ namespace RePag
 				float fStep;
 				void __vectorcall Geometry(void);
 				void __vectorcall CreateThumb(_In_ bool bRender);
+				inline long __vectorcall FloatToLong(_In_ float fNumber);
 
 			protected:
 				void __vectorcall OnRender(void);
@@ -397,7 +398,7 @@ namespace RePag
 				long lLine;
 				void* pvLine;
 				void __vectorcall WM_SetFocus(void);
-				void __vectorcall WM_VScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_VScroll(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
 				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
 				void __vectorcall WM_KeyDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
