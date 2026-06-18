@@ -395,6 +395,7 @@ namespace RePag
 			friend void CALLBACK Timer_Caret_EditBox(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
 
 			private:
+				long lSelectLine;
 				long lLine;
 				void* pvLine;
 				void __vectorcall WM_SetFocus(void);
