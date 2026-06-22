@@ -28,8 +28,11 @@ SOFTWARE.
 #define MenuH
 //---------------------------------------------------------------------------
 #define IDM_AUSSCHNEIDEN                    11001
+#define IDM_CUT                             11001
 #define IDM_KOPIEREN                        11002
+#define IDM_COPY                            11002
 #define IDM_EINFUGEN                        11003
+#define IDM_PASTE                           11003
 #define IDM_DS_LOSCHEN                      11004
 #define IDM_DS_EINFUGEN                     11005
 #define IDM_DS_ANDERN                       11006
