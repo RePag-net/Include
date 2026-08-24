@@ -126,7 +126,6 @@ namespace RePag
 
 			protected:
 				COStringA* vasContent;
-				STFont stFont;
 				IDWriteTextFormat* ifText;
 				D2D1_COLOR_F crfText;
 				ID2D1SolidColorBrush* ifTextColor;
@@ -146,7 +145,7 @@ namespace RePag
 																			_In_ STDeviceResources* pstDeviceResourcesA);
 				VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall Text(_In_z_ char* pcText);
-				void __vectorcall Font(STFont& stFont);
+				void __vectorcall SetFont(STFont& stFont);
 				COStringA* __vectorcall Content(_Out_ COStringA* vasInhaltA);
 				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
 				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
@@ -350,7 +349,6 @@ namespace RePag
 				COScrollBar* sbHorizontal;
 				COScrollBar* sbVertical;
 				void __vectorcall CreateText(void);
-				void __vectorcall ChangeSizeVisibleScrollBars(void);
 
 			protected:
 				COList* vliText;
@@ -362,6 +360,8 @@ namespace RePag
 				void __vectorcall WM_KeyDown(_In_ WPARAM wParam);
 				void __vectorcall WM_LButtonDown(void);
 				void __vectorcall WM_MouseWheel(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall ChangeSizeVisibleScrollBars(void);
+				void __vectorcall SetScrollBarPos(_In_ BYTE ucBar, _In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall GetScrollBar(_In_ BYTE ucBar, _Out_ STScrollInfo& siScrollInfo);
 				void __vectorcall SetScrollBar(_In_ BYTE ucBar, _In_ STScrollInfo& stScrollInfo);
 				void __vectorcall DeSelect(void);
@@ -400,7 +400,6 @@ namespace RePag
 				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
 				void __vectorcall WM_KeyDown(_In_ WPARAM wParam);
 				void __vectorcall WM_Char(_In_ WPARAM wParam);
-				void __vectorcall DeSelect(void);
 				void __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		 _In_ STDeviceResources* pstDeviceResourcesA); // Note: three numbers uiIDElement, because COScrollBars by COTextBox!!!
 
@@ -421,7 +420,6 @@ namespace RePag
 				bool __vectorcall SearchAndSetEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
 				unsigned long __vectorcall NumberEnum(void);
 				void __vectorcall DeSelectEnum(void);
-				void __vectorcall Test(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -548,6 +546,103 @@ namespace RePag
 		__declspec(dllexport) COButton* __vectorcall COButtonV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
 		__declspec(dllexport) COButton* __vectorcall COButtonV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																													 _In_ STDeviceResources* pstDeviceResources);
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllexport) COLookupBox : public COListBox
+		{
+			friend LRESULT CALLBACK WndProc_LookupBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+			friend LRESULT CALLBACK WndProc_Entry(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+
+			private:
+			class COEntry : public COButton
+			{
+				friend LRESULT CALLBACK WndProc_Entry(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+
+				private:
+				float fButtonSize;
+				float fButton_left;
+				float fButton_top;
+				BYTE ucDirty;
+				bool bMouseTracking;
+				TRACKMOUSEEVENT stTrackMouseEvent;
+				ID2D1RectangleGeometry* ifButton;
+				ID2D1SolidColorBrush* ifButtonColor;
+				ID2D1PathGeometry* ifArrow;
+				ID2D1SolidColorBrush* ifArrowColor;
+				COLookupBox* pLookupBox;
+				void __vectorcall WM_Create(void);
+				void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
+				void __vectorcall WM_MouseMove(_In_ LPARAM lParam);
+				void __vectorcall WM_MouseLeave(void);
+				void __vectorcall WM_MouseOver(_In_ LPARAM lParam);
+				void __vectorcall OnRender(void);
+
+				protected:
+
+				public:
+				void __vectorcall COEntryV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																	 _In_ COLookupBox* pLookupBoxA, _In_ STDeviceResources* pstDeviceResourcesA);
+				VMEMORY __vectorcall COFreiV(void);
+				void __vectorcall Geometry(void);
+				void __vectorcall OnPaint(void);
+				void __vectorcall Text(_In_z_ char* pcText);
+				void __vectorcall Lock(void);
+				void __vectorcall Release(void);
+				D2D1_COLOR_F crfButton;
+				D2D1_COLOR_F crfButton_Move;
+				D2D1_COLOR_F crfButton_Click;
+				D2D1_COLOR_F crfArrow;
+				D2D1_COLOR_F crfArrow_Move;
+				D2D1_COLOR_F crfArrow_Click;
+			}; COEntry* eEntry;
+			unsigned char ucHeight_Entry;
+			void __vectorcall WM_Create_LookupBox(_In_ HWND hWnd);
+			void __vectorcall WM_LButtonUp_LookupBox(void);
+
+			protected:
+
+			public:
+			void __vectorcall COLookupBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																		 _In_ STDeviceResources* pstDeviceResourcesA);
+			// Note: four numbers uiIDElement, because COScrollBars by COTextBox and COEnum !!!
+			VMEMORY __vectorcall COFreiV(void);
+			long& __vectorcall GetHeight(_Out_ long& lHeightA);
+			RECT& __vectorcall GetWindow(_Out_ RECT& rcWindow);
+			void __vectorcall NewWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
+			void __vectorcall NewWindowPosition(_In_ POINT& ptPositionA);
+			void __vectorcall NewWindow(_In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
+			void __vectorcall NewWindowSize(_In_ long lHeightA, _In_ long lWidthA);
+			void __vectorcall NewWindowHeight(_In_ long lHeightA);
+			void __vectorcall NewWindowWidth(_In_ long lWidthA);
+			void __vectorcall ChangeWindowSize(_In_ long lHeightA, _In_ long lWidthA);
+			void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
+			void __vectorcall SetFont(_In_ STFont& stFontA);
+			void __vectorcall SetHeight_Entry(_In_ unsigned char ucHohe);
+			void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
+			void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetButtonColor_Move(_In_ D2D1_COLOR_F& crfButton_MoveA);
+			void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetButtonColor_Click(_In_ D2D1_COLOR_F& crfButton_ClickA);
+			void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetArrowColor(_In_ D2D1_COLOR_F& crfArrowA);
+			void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetArrowColor_Move(_In_ D2D1_COLOR_F& crfArrow_MoveA);
+			void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+			void __vectorcall SetArrowColor_Click(_In_ D2D1_COLOR_F& crfArrow_ClickA);
+			void __vectorcall Lock(void);
+			void __vectorcall Release(void);
+			void __vectorcall Text(_In_z_ char* pcText);
+			bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndex);
+			bool __vectorcall SearchAndSetEntry(_In_ COStringA* vasEnum, _In_ unsigned char& ucIndexA);
+
+		};
+		__declspec(dllexport) COLookupBox* __vectorcall COLookupBoxV(const char* pcWindowName, unsigned int uiIDElement,
+																																 _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllexport) COLookupBox* __vectorcall COLookupBoxV(VMEMORY vmMemory, const char* pcWindowName, unsigned int uiIDElement,
+																																 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
 }
