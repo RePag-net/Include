@@ -465,184 +465,217 @@ namespace RePag
 		__declspec(dllimport) COEditBox* __vectorcall COEditBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																														 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		class __declspec(dllexport) COPassword : public COEditLine
+		class __declspec(dllimport) COPassword : public COEditLine
 		{
 			friend LRESULT CALLBACK WndProc_Password(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 			friend void CALLBACK Timer_Caret_Password(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
 
 			private:
-			COStringA* vasPassword;
-			void __vectorcall WM_SetFocus(void);
-			void __vectorcall WM_Char(_In_ WPARAM wParam);
-			void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
-			void __vectorcall OnRender(_In_ bool bCaret);
+				COStringA* vasPassword;
+				void __vectorcall WM_SetFocus(void);
+				void __vectorcall WM_Char(_In_ WPARAM wParam);
+				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
+				void __vectorcall OnRender(_In_ bool bCaret);
 
 			protected:
 
 			public:
-			void __vectorcall COPasswordV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA);
-			VMEMORY __vectorcall COFreiV(void);
-			void __vectorcall Text(_In_z_ const char* pcText);
+				void __vectorcall COPasswordV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA);
+				VMEMORY __vectorcall COFreiV(void);
+				void __vectorcall Text(_In_z_ const char* pcText);
 
 		};
 		//---------------------------------------------------------------------------
-		__declspec(dllexport) COPassword* __vectorcall COPasswordV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
-		__declspec(dllexport) COPassword* __vectorcall COPasswordV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
+		__declspec(dllimport) COPassword* __vectorcall COPasswordV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COPassword* __vectorcall COPasswordV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																															 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		class __declspec(dllexport) COButton : public COTextLine
+		class __declspec(dllimport) COButton : public COTextLine
 		{
 			friend LRESULT CALLBACK WndProc_Button(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
-			D2D1_COLOR_F crfText_1;
-			ID2D1SolidColorBrush* ifTextColor_1;
-			D2D1_COLOR_F crfText_Focus;
-			ID2D1SolidColorBrush* ifTextColor_Focus;
+				D2D1_COLOR_F crfText_1;
+				ID2D1SolidColorBrush* ifTextColor_1;
+				D2D1_COLOR_F crfText_Focus;
+				ID2D1SolidColorBrush* ifTextColor_Focus;
 
 			protected:
-			bool bActive;
-			D2D1_COLOR_F crfBackground_1;
-			ID2D1SolidColorBrush* ifBackgroundColor_1;
-			D2D1_COLOR_F crfBackground_2;
-			ID2D1SolidColorBrush* ifBackgroundColor_2;
-			D2D1_COLOR_F crfBackground_3;
-			ID2D1SolidColorBrush* ifBackgroundColor_3;
-			void __vectorcall WM_Create(void);
-			void __vectorcall WM_SetFocus(void);
-			void __vectorcall WM_KillFocus(void);
-			void __vectorcall WM_Char(_In_ WPARAM wParam);
-			void __vectorcall WM_LButtonDown(void);
-			void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
-			void __vectorcall COButtonV(_In_ VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
-																	_In_ STDeviceResources* pstDeviceResources);
+				bool bActive;
+				D2D1_COLOR_F crfBackground_1;
+				ID2D1SolidColorBrush* ifBackgroundColor_1;
+				D2D1_COLOR_F crfBackground_2;
+				ID2D1SolidColorBrush* ifBackgroundColor_2;
+				D2D1_COLOR_F crfBackground_3;
+				ID2D1SolidColorBrush* ifBackgroundColor_3;
+				void __vectorcall WM_Create(void);
+				void __vectorcall WM_SetFocus(void);
+				void __vectorcall WM_KillFocus(void);
+				void __vectorcall WM_Char(_In_ WPARAM wParam);
+				void __vectorcall WM_LButtonDown(void);
+				void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall COButtonV(_In_ VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																		_In_ STDeviceResources* pstDeviceResources);
 
 			public:
-			void __vectorcall COButtonV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
-																	_In_ STDeviceResources* pstDeviceResources);
-			VMEMORY __vectorcall COFreiV(void);
-			void(__vectorcall* pfnWM_LButtonDown)(COButton*);
-			void(__vectorcall* pfnWM_LButtonUp)(COButton*);
-			void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
-			void __vectorcall SetTextColor_Focus(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetTextColor_Focus(_In_ D2D1_COLOR_F& crfTextA);
-			void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
-			void __vectorcall SetBackgroundColor_1(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetBackgroundColor_1(_In_ D2D1_COLOR_F& crfBackgroundA);
-			void __vectorcall SetBackgroundColor_2(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetBackgroundColor_2(_In_ D2D1_COLOR_F& crfBackgroundA);
-			void __vectorcall SetBackgroundColor_3(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetBackgroundColor_3(_In_ D2D1_COLOR_F& crfBackgroundA);
-			void __vectorcall Label(const char* pcLabel);
-			void __vectorcall SetActive(_In_ bool bActiveA);
-			bool __vectorcall Active(void);
-			void __vectorcall Lock(void);
-			void __vectorcall Release(void);
+				void __vectorcall COButtonV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																		_In_ STDeviceResources* pstDeviceResources);
+				VMEMORY __vectorcall COFreiV(void);
+				void(__vectorcall* pfnWM_LButtonDown)(COButton*);
+				void(__vectorcall* pfnWM_LButtonUp)(COButton*);
+				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
+				void __vectorcall SetTextColor_Focus(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetTextColor_Focus(_In_ D2D1_COLOR_F& crfTextA);
+				void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
+				void __vectorcall SetBackgroundColor_1(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor_1(_In_ D2D1_COLOR_F& crfBackgroundA);
+				void __vectorcall SetBackgroundColor_2(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor_2(_In_ D2D1_COLOR_F& crfBackgroundA);
+				void __vectorcall SetBackgroundColor_3(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor_3(_In_ D2D1_COLOR_F& crfBackgroundA);
+				void __vectorcall Label(const char* pcLabel);
+				void __vectorcall SetActive(_In_ bool bActiveA);
+				bool __vectorcall Active(void);
+				void __vectorcall Lock(void);
+				void __vectorcall Release(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		__declspec(dllexport) COButton* __vectorcall COButtonV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
-		__declspec(dllexport) COButton* __vectorcall COButtonV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
+		__declspec(dllimport) COButton* __vectorcall COButtonV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COButton* __vectorcall COButtonV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																													 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		class __declspec(dllexport) COLookupBox : public COListBox
+		class __declspec(dllimport) COLookupBox : public COListBox
 		{
 			friend LRESULT CALLBACK WndProc_LookupBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 			friend LRESULT CALLBACK WndProc_Entry(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
-			class COEntry : public COButton
-			{
-				friend LRESULT CALLBACK WndProc_Entry(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				class COEntry : public COButton
+				{
+					friend LRESULT CALLBACK WndProc_Entry(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
-				private:
-				float fButtonSize;
-				float fButton_left;
-				float fButton_top;
-				BYTE ucDirty;
-				bool bMouseTracking;
-				TRACKMOUSEEVENT stTrackMouseEvent;
-				ID2D1RectangleGeometry* ifButton;
-				ID2D1SolidColorBrush* ifButtonColor;
-				ID2D1PathGeometry* ifArrow;
-				ID2D1SolidColorBrush* ifArrowColor;
-				COLookupBox* pLookupBox;
-				void __vectorcall WM_Create(void);
-				void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
-				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
-				void __vectorcall WM_MouseMove(_In_ LPARAM lParam);
-				void __vectorcall WM_MouseLeave(void);
-				void __vectorcall WM_MouseOver(_In_ LPARAM lParam);
-				void __vectorcall OnRender(void);
+					private:
+						float fButtonSize;
+						float fButton_left;
+						float fButton_top;
+						BYTE ucDirty;
+						bool bMouseTracking;
+						TRACKMOUSEEVENT stTrackMouseEvent;
+						ID2D1RectangleGeometry* ifButton;
+						ID2D1SolidColorBrush* ifButtonColor;
+						ID2D1PathGeometry* ifArrow;
+						ID2D1SolidColorBrush* ifArrowColor;
+						COLookupBox* pLookupBox;
+						void __vectorcall WM_Create(void);
+						void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
+						void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
+						void __vectorcall WM_MouseMove(_In_ LPARAM lParam);
+						void __vectorcall WM_MouseLeave(void);
+						void __vectorcall WM_MouseOver(_In_ LPARAM lParam);
+						void __vectorcall OnRender(void);
 
-				protected:
+					protected:
 
-				public:
-				void __vectorcall COEntryV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
-																	 _In_ COLookupBox* pLookupBoxA, _In_ STDeviceResources* pstDeviceResourcesA);
-				VMEMORY __vectorcall COFreiV(void);
-				void __vectorcall Geometry(void);
-				void __vectorcall OnPaint(void);
-				void __vectorcall Text(_In_z_ char* pcText);
-				void __vectorcall Lock(void);
-				void __vectorcall Release(void);
-				D2D1_COLOR_F crfButton;
-				D2D1_COLOR_F crfButton_Move;
-				D2D1_COLOR_F crfButton_Click;
-				D2D1_COLOR_F crfArrow;
-				D2D1_COLOR_F crfArrow_Move;
-				D2D1_COLOR_F crfArrow_Click;
-			}; COEntry* eEntry;
-			unsigned char ucHeight_Entry;
-			void __vectorcall WM_Create_LookupBox(_In_ HWND hWnd);
-			void __vectorcall WM_LButtonUp_LookupBox(void);
+					public:
+						void __vectorcall COEntryV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																			 _In_ COLookupBox* pLookupBoxA, _In_ STDeviceResources* pstDeviceResourcesA);
+						VMEMORY __vectorcall COFreiV(void);
+						void __vectorcall Geometry(void);
+						void __vectorcall OnPaint(void);
+						void __vectorcall Text(_In_z_ char* pcText);
+						void __vectorcall Lock(void);
+						void __vectorcall Release(void);
+						D2D1_COLOR_F crfButton;
+						D2D1_COLOR_F crfButton_Move;
+						D2D1_COLOR_F crfButton_Click;
+						D2D1_COLOR_F crfArrow;
+						D2D1_COLOR_F crfArrow_Move;
+						D2D1_COLOR_F crfArrow_Click;
+				}; COEntry* eEntry;
+				unsigned char ucHeight_Entry;
+				void __vectorcall WM_Create_LookupBox(_In_ HWND hWnd);
+				void __vectorcall WM_LButtonUp_LookupBox(void);
 
 			protected:
 
 			public:
-			void __vectorcall COLookupBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
-																		 _In_ STDeviceResources* pstDeviceResourcesA);
-			// Note: four numbers uiIDElement, because COScrollBars by COTextBox and COEnum !!!
-			VMEMORY __vectorcall COFreiV(void);
-			long& __vectorcall GetHeight(_Out_ long& lHeightA);
-			RECT& __vectorcall GetWindow(_Out_ RECT& rcWindow);
-			void __vectorcall NewWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
-			void __vectorcall NewWindowPosition(_In_ POINT& ptPositionA);
-			void __vectorcall NewWindow(_In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
-			void __vectorcall NewWindowSize(_In_ long lHeightA, _In_ long lWidthA);
-			void __vectorcall NewWindowHeight(_In_ long lHeightA);
-			void __vectorcall NewWindowWidth(_In_ long lWidthA);
-			void __vectorcall ChangeWindowSize(_In_ long lHeightA, _In_ long lWidthA);
-			void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
-			void __vectorcall SetFont(_In_ STFont& stFontA);
-			void __vectorcall SetHeight_Entry(_In_ unsigned char ucHohe);
-			void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
-			void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetButtonColor_Move(_In_ D2D1_COLOR_F& crfButton_MoveA);
-			void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetButtonColor_Click(_In_ D2D1_COLOR_F& crfButton_ClickA);
-			void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetArrowColor(_In_ D2D1_COLOR_F& crfArrowA);
-			void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetArrowColor_Move(_In_ D2D1_COLOR_F& crfArrow_MoveA);
-			void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-			void __vectorcall SetArrowColor_Click(_In_ D2D1_COLOR_F& crfArrow_ClickA);
-			void __vectorcall Lock(void);
-			void __vectorcall Release(void);
-			void __vectorcall Text(_In_z_ char* pcText);
-			bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndex);
-			bool __vectorcall SearchAndSetEntry(_In_ COStringA* vasEnum, _In_ unsigned char& ucIndexA);
+				void __vectorcall COLookupBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																			 _In_ STDeviceResources* pstDeviceResourcesA);
+				// Note: four numbers uiIDElement, because COScrollBars by COTextBox and COEntry !!!
+				VMEMORY __vectorcall COFreiV(void);
+				long& __vectorcall GetHeight(_Out_ long& lHeightA);
+				RECT& __vectorcall GetWindow(_Out_ RECT& rcWindow);
+				void __vectorcall NewWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
+				void __vectorcall NewWindowPosition(_In_ POINT& ptPositionA);
+				void __vectorcall NewWindow(_In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
+				void __vectorcall NewWindowSize(_In_ long lHeightA, _In_ long lWidthA);
+				void __vectorcall NewWindowHeight(_In_ long lHeightA);
+				void __vectorcall NewWindowWidth(_In_ long lWidthA);
+				void __vectorcall ChangeWindowSize(_In_ long lHeightA, _In_ long lWidthA);
+				void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
+				void __vectorcall SetFont(_In_ STFont& stFontA);
+				void __vectorcall SetHeight_Entry(_In_ unsigned char ucHohe);
+				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
+				void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor_Move(_In_ D2D1_COLOR_F& crfButton_MoveA);
+				void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor_Click(_In_ D2D1_COLOR_F& crfButton_ClickA);
+				void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor(_In_ D2D1_COLOR_F& crfArrowA);
+				void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor_Move(_In_ D2D1_COLOR_F& crfArrow_MoveA);
+				void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor_Click(_In_ D2D1_COLOR_F& crfArrow_ClickA);
+				void __vectorcall Lock(void);
+				void __vectorcall Release(void);
+				void __vectorcall Text(_In_z_ char* pcText);
+				bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndex);
+				bool __vectorcall SearchAndSetEntry(_In_ COStringA* vasEnum, _In_ unsigned char& ucIndexA);
 
 		};
-		__declspec(dllexport) COLookupBox* __vectorcall COLookupBoxV(const char* pcWindowName, unsigned int uiIDElement,
+		__declspec(dllimport) COLookupBox* __vectorcall COLookupBoxV(const char* pcWindowName, unsigned int uiIDElement,
 																																 _In_ STDeviceResources* pstDeviceResources);
-		__declspec(dllexport) COLookupBox* __vectorcall COLookupBoxV(VMEMORY vmMemory, const char* pcWindowName, unsigned int uiIDElement,
+		__declspec(dllimport) COLookupBox* __vectorcall COLookupBoxV(VMEMORY vmMemory, const char* pcWindowName, unsigned int uiIDElement,
 																																 _In_ STDeviceResources* pstDeviceResources);
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		 class __declspec(dllimport) COSwitch : public COButton
+		{
+			friend LRESULT CALLBACK WndProc_Switch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+
+			private:
+				bool bOn;
+				void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
+
+			protected:
+				COStringA asLabel_On;
+				COStringA asLabel_Off;
+				void __vectorcall Switch(_In_ bool bOn);
+
+				void __vectorcall COSwitchV(_In_ VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																		_In_ STDeviceResources* pstDeviceResourcesA);
+
+			public:
+				void __vectorcall COSwitchV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																		_In_ STDeviceResources* pstDeviceResources);
+				void(__vectorcall* pfnWM_LButtonDown)(COSwitch*);
+				void(__vectorcall* pfnWM_LButtonUp)(COSwitch*);
+				bool __vectorcall IsOn(void);
+				void __vectorcall SetSwitch(_In_ bool bOn);
+				void __vectorcall Label(_In_z_ const char* pcLabel);
+				void __vectorcall Label_On(_In_z_ const char* pcLabel);
+				void __vectorcall Label_Off(_In_z_ const char* pcLabel);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		__declspec(dllimport) COSwitch* __vectorcall COSwitchV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COSwitch* __vectorcall COSwitchV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
+																													 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
 }
