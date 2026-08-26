@@ -147,7 +147,7 @@ namespace RePag
 				void __vectorcall Text(_In_z_ char* pcText);
 				void __vectorcall SetFont(STFont& stFont);
 				COStringA* __vectorcall Content(_Out_ COStringA* vasInhaltA);
-				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
 				void __vectorcall TextAlignment(_In_ unsigned char ucTextAlignmentA);
 				void __vectorcall OnPaint(void);
@@ -208,7 +208,7 @@ namespace RePag
 				bool __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ D2D_SIZE_F& szfTextPoint);
 				inline long __vectorcall FloatToLong(_In_ float fNumber);
 				void __vectorcall DeleteCaretPos(void);
-				void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& crfCaretA);
 				void __vectorcall COEditLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																			_In_ STDeviceResources* pstDeviceResourcesA);
@@ -226,9 +226,9 @@ namespace RePag
 				void(__vectorcall* pfnWM_LButtonDBClick)(_In_ COEditLine*, _In_ WPARAM, _In_ LPARAM);
 				void __vectorcall SetzVerfugbar(_In_ bool bVerfugbar);
 				void __vectorcall Text(_In_ char* pcText);
-				void __vectorcall SetSelectTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetSelectTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetSelectTextColor(_In_ D2D1_COLOR_F& crfSelectTextA);
-				void __vectorcall SetSelectBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetSelectBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetSelectBackgroundColor(_In_ D2D1_COLOR_F& crfSelectBackA);
 				void __vectorcall SetCharacter_Max(_In_ unsigned long ulCharacter);
 				unsigned long __vectorcall Character_Max(void);
@@ -315,23 +315,23 @@ namespace RePag
 				void __vectorcall NewWidth(_In_ long lWidthA);
 				void __vectorcall NewHeight(_In_ long lHeightA);
 				void __vectorcall ScaleArrowThumb(_In_ float fScale);
-				void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
-				void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetButtonColor_Move(_In_ D2D1_COLOR_F& crfButton_MoveA);
-				void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetButtonColor_Click(_In_ D2D1_COLOR_F& crfButton_ClickA);
-				void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetArrowColor(_In_ D2D1_COLOR_F& crfArrowA);
-				void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetArrowColor_Move(_In_ D2D1_COLOR_F& crfArrow_MoveA);
-				void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetArrowColor_Click(_In_ D2D1_COLOR_F& crfArrow_ClickA);
-				void __vectorcall SetThumbColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetThumbColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetThumbColor(_In_ D2D1_COLOR_F& crfThumbA);
-				void __vectorcall SetThumbColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetThumbColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetThumbColor_Move(_In_ D2D1_COLOR_F& crfThumb_MoveA);
-				void __vectorcall SetThumbColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetThumbColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetThumbColor_Click(_In_ D2D1_COLOR_F& crfThumb_ClickA);
 				void __vectorcall OnPaint(void);
 		};
@@ -523,17 +523,17 @@ namespace RePag
 				VMEMORY __vectorcall COFreiV(void);
 				void(__vectorcall* pfnWM_LButtonDown)(COButton*);
 				void(__vectorcall* pfnWM_LButtonUp)(COButton*);
-				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
-				void __vectorcall SetTextColor_Focus(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetTextColor_Focus(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetTextColor_Focus(_In_ D2D1_COLOR_F& crfTextA);
-				void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
-				void __vectorcall SetBackgroundColor_1(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor_1(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetBackgroundColor_1(_In_ D2D1_COLOR_F& crfBackgroundA);
-				void __vectorcall SetBackgroundColor_2(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor_2(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetBackgroundColor_2(_In_ D2D1_COLOR_F& crfBackgroundA);
-				void __vectorcall SetBackgroundColor_3(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetBackgroundColor_3(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetBackgroundColor_3(_In_ D2D1_COLOR_F& crfBackgroundA);
 				void __vectorcall Label(const char* pcLabel);
 				void __vectorcall SetActive(_In_ bool bActiveA);
@@ -618,19 +618,19 @@ namespace RePag
 				void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall SetFont(_In_ STFont& stFontA);
 				void __vectorcall SetHeight_Entry(_In_ unsigned char ucHohe);
-				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-				void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
-				void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
-				void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetButtonColor_Move(_In_ D2D1_COLOR_F& crfButton_MoveA);
-				void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetButtonColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetButtonColor_Click(_In_ D2D1_COLOR_F& crfButton_ClickA);
-				void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetArrowColor(_In_ D2D1_COLOR_F& crfArrowA);
-				void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor_Move(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetArrowColor_Move(_In_ D2D1_COLOR_F& crfArrow_MoveA);
-				void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+				void __vectorcall SetArrowColor_Click(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetArrowColor_Click(_In_ D2D1_COLOR_F& crfArrow_ClickA);
 				void __vectorcall Lock(void);
 				void __vectorcall Release(void);
@@ -676,6 +676,92 @@ namespace RePag
 		__declspec(dllimport) COSwitch* __vectorcall COSwitchV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
 		__declspec(dllimport) COSwitch* __vectorcall COSwitchV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																													 _In_ STDeviceResources* pstDeviceResources);
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllimport) COSwitchGroup : public COGraphic
+		{
+			friend LRESULT CALLBACK WndProc_SwitchGroup(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+			friend LRESULT CALLBACK WndProc_Two_waySwitch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+
+			private:
+				class COTwo_waySwitch : public COSwitch
+				{
+					friend LRESULT CALLBACK WndProc_Two_waySwitch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+
+					private:
+					COSwitchGroup* pSwitchGroup;
+					void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
+
+					protected:
+
+					public:
+					void __vectorcall COTwo_waySwitchV(_In_ VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																						 _In_ COSwitchGroup* pSwitchGroupA, _In_ STDeviceResources* pstDeviceResources);
+					void __vectorcall OnPaint(void);
+					bool bGroup;
+
+				}; COTwo_waySwitch** vpTwo_waySwitch;
+				IDWriteTextFormat* ifText;
+				D2D1_COLOR_F crfText;
+				ID2D1SolidColorBrush* ifTextColor;
+				unsigned char ucModus;
+				unsigned char ucCount;
+				unsigned char ucIndex;
+				short sMausPos_x;
+				unsigned char ucSwitch;
+				void __vectorcall WM_Create(void);
+				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
+				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall OnRender(void);
+
+			protected:
+
+			public:
+				void __vectorcall COSwitchGroupV(_In_ VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiIDElementA, _In_ unsigned char ucNumberOfSwitches,
+																				 _In_ unsigned char ucWechselmodus, _In_ STDeviceResources* pstDeviceResources); // Note: one uiIDElement for each switch plus one for group !!!
+				//void __vectorcall COTabellenKopfV(VMEMORY vmSpeicher, const char* pcFensterName, unsigned int uiIDElementA, unsigned char ucSchalteranzahl);
+				VMEMORY __vectorcall COFreiV(void);
+				void __vectorcall CreateSwitchInGroup(_In_ unsigned char ucSchalterA, _In_ long lHoheA, _In_ long lBreiteA, _In_ long lPos_x, _In_ long lPos_y);
+				void __vectorcall SetAllSwitch_Off(void);
+				void __vectorcall SetAllSwitch_Active(_In_ bool bAktiv);
+				unsigned char __vectorcall SelectSwitch(void);
+				void __vectorcall Lock(void);
+				void __vectorcall Release(void);
+				void(__vectorcall* pfnChangeColumnWidth)(_In_ HWND hWndTabelle, _In_ unsigned char ucSpalte, _In_ long lBreite);
+				void __vectorcall Switch_Label(_In_ unsigned char ucSwitchA, _In_z_ const char* pcLabel);
+				void __vectorcall Switch_Label_On(_In_ unsigned char ucSwitchA, _In_z_ const char* pcLabel);
+				void __vectorcall Switch_Label_Off(_In_ unsigned char ucSwitchA, _In_z_ const char* pcLabel);
+				void __vectorcall Switch_SetSwitch(_In_ unsigned char ucSwitchA, _In_ bool bOn);
+				bool __vectorcall Switch_Active(_In_ unsigned char ucSwitchA);
+				void __vectorcall Switch_SetActive(_In_ unsigned char ucSwitchA, _In_ bool bActive);
+				void __vectorcall Switch_SetGroup(_In_ unsigned char ucSwitchA, _In_ bool bGroup);
+				void __vectorcall Switch_SetWidth(_In_ unsigned char ucSwitchA, _In_ long lWidthA);
+				void __vectorcall Switch_SetVisible(_In_ unsigned char ucSwitchA, _In_ bool bVisible);
+				bool __vectorcall Switch_IsOn(_In_ unsigned char ucSwitchA);
+				void __vectorcall Switch_Font(_In_ unsigned char ucSwitchA, _In_ STFont& stFont);
+				void __vectorcall Switch_SetBackgroundColor(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall Switch_SetBackgroundColor_1(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall Switch_SetBackgroundColor_2(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall Switch_SetBackgroundColor_3(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				long& __vectorcall Switch_Pos_X(_In_ unsigned char ucSwitchA, _Out_ long& lPos_x);
+				long& __vectorcall Switch_Pos_Y(_In_ unsigned char ucSwitchA, _Out_ long& lPos_y);
+				void __vectorcall Switch_NewPosition(_In_ unsigned char ucSwitchA, _In_ long lPos_x, _In_ long lPos_y);
+				void __vectorcall Switch_ChangePosition(_In_ unsigned char ucSwitchA, _In_ long lPos_x, _In_ long lPos_y);
+				void __vectorcall Switch_pfnWM_LButtonUp(_In_ unsigned char ucSwitchA, void(__vectorcall* pfnSwitch_WM_LButtonUp)(COSwitch*));
+				void __vectorcall Switch_pfnWM_LButtonDown(_In_ unsigned char ucSwitchA, void(__vectorcall* pfnSwitch_WM_LButtonDown)(COSwitch*));
+				void(__vectorcall* pfnOnRender)(_In_ COSwitchGroup* pSwitchGroup);
+				void __vectorcall OnPaint(void);
+				void __vectorcall SetFont(STFont& stFont);
+				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& stTextA);
+				void __vectorcall DrawText(_In_z_ const wchar_t* wcInhalt, _In_ size_t szBytes_Text, _In_ const D2D1_RECT_F& rcfText);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		__declspec(dllimport) COSwitchGroup* __vectorcall COSwitchGroupV(_In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement, _In_ unsigned char ucNumberOfSwitches,
+																																		 _In_ unsigned char ucWechselmodus, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COSwitchGroup* __vectorcall COSwitchGroupV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
+																																		 _In_ unsigned char ucNumberOfSwitches, _In_ unsigned char ucWechselmodus,
+																																		 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
 }

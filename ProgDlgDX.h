@@ -181,9 +181,9 @@ namespace RePag
         };
         STWindowConstraction* vstWindowConstraction;
 
-        protected:
+      protected:
         void __vectorcall COGraphicV(_In_ const VMEMORY vmMemory, _In_ const char* pcClassName, _In_ const char* pcWindowName, _In_ unsigned int uiElementA,
-                                     _In_ STDeviceResources* pstDeviceResourcesA);
+                                      _In_ STDeviceResources* pstDeviceResourcesA);
         HANDLE heRender;
 
       public:
