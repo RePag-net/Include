@@ -739,9 +739,13 @@ namespace RePag
 				bool __vectorcall Switch_IsOn(_In_ unsigned char ucSwitchA);
 				void __vectorcall Switch_Font(_In_ unsigned char ucSwitchA, _In_ STFont& stFont);
 				void __vectorcall Switch_SetBackgroundColor(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall Switch_SetBackgroundColor(_In_ unsigned char ucSwitchA, _In_ D2D1_COLOR_F& crfBackgroundA);
 				void __vectorcall Switch_SetBackgroundColor_1(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall Switch_SetBackgroundColor_1(_In_ unsigned char ucSwitchA, _In_ D2D1_COLOR_F& crfBackgroundA);
 				void __vectorcall Switch_SetBackgroundColor_2(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall Switch_SetBackgroundColor_2(_In_ unsigned char ucSwitchA, _In_ D2D1_COLOR_F& crfBackgroundA);
 				void __vectorcall Switch_SetBackgroundColor_3(_In_ unsigned char ucSwitchA, _In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall Switch_SetBackgroundColor_3(_In_ unsigned char ucSwitchA, _In_ D2D1_COLOR_F& crfBackgroundA);
 				long& __vectorcall Switch_Pos_X(_In_ unsigned char ucSwitchA, _Out_ long& lPos_x);
 				long& __vectorcall Switch_Pos_Y(_In_ unsigned char ucSwitchA, _Out_ long& lPos_y);
 				void __vectorcall Switch_NewPosition(_In_ unsigned char ucSwitchA, _In_ long lPos_x, _In_ long lPos_y);
@@ -761,6 +765,42 @@ namespace RePag
 																																		 _In_ unsigned char ucWechselmodus, _In_ STDeviceResources* pstDeviceResources);
 		__declspec(dllimport) COSwitchGroup* __vectorcall COSwitchGroupV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																																		 _In_ unsigned char ucNumberOfSwitches, _In_ unsigned char ucWechselmodus,
+																																		 _In_ STDeviceResources* pstDeviceResources);
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllimport) COProgressBar : public COGraphic
+		{
+			friend LRESULT CALLBACK WndProc_ProgressBar(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+
+			private:
+				unsigned long ulPosition_max;
+				unsigned long ulPosition_min;
+				unsigned long ulPosition;
+				double dStep;
+				D2D1_COLOR_F crfFillColor;
+				ID2D1SolidColorBrush* ifFillColor;
+				ID2D1RectangleGeometry* ifProgressBar;
+				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
+				void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall OnRender(void);
+
+			protected:
+
+			public:
+				void __vectorcall COProgressBarV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcFensterName, _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResources);
+				void __vectorcall SetPosition_Max(_In_ unsigned long ulPosition);
+				void __vectorcall SetPosition_Min(_In_ unsigned long ulPosition);
+				void __vectorcall SetPosition(_In_ unsigned long ulPositionA);
+				void __vectorcall FillColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall FillColor(_In_ D2D1_COLOR_F& crfTextA);
+				void(__vectorcall* pfnWM_LButtonDown)(_In_ COProgressBar*, _In_ WPARAM, _In_ LPARAM);
+				void(__vectorcall* pfnWM_MouseMove)(_In_ COProgressBar*, _In_ WPARAM, _In_ LPARAM);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		__declspec(dllimport) COProgressBar* __vectorcall COProgressBarV(_In_z_ const char* pcWindowsName, _In_ unsigned int uiIDElement, _In_ STDeviceResources* pstDeviceResources);
+		__declspec(dllimport) COProgressBar* __vectorcall COProgressBarV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowsName, _In_ unsigned int uiIDElement,
 																																		 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
 	}
