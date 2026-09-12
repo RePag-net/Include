@@ -45,7 +45,7 @@ namespace RePag
     constexpr BYTE DLG_MINIMAL = 64;
     constexpr BYTE DLG_MAXIMAL = 128;
     constexpr USHORT IDE_DLG_VISIBLE = 0xFFFF;
-    constexpr BYTE IDE_DLG_WM_QUIT = 0xFFFE;
+    constexpr BYTE IDE_DLG_WM_QUIT = 0xFE;
     //---------------------------------------------------------------------------------------------------------------------------------------
     typedef struct STDeviceResources
     {
@@ -65,7 +65,7 @@ namespace RePag
         {
           HANDLE heElement[2];
           DWORD dwMain;
-          DWORD dwActiv;
+          DWORD dwActive;
           unsigned char ucFunction;
           unsigned char ucWait;
         };
@@ -114,7 +114,7 @@ namespace RePag
         void __vectorcall NewWindowWidth(_In_ long lWidthA);
         void __vectorcall ChangeWindowSize(_In_ long lHeightA, _In_ long lWidthA);
         void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
-        void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char ucAlpha);
+        void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char fAlpha);
         void __vectorcall SetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
         void __vectorcall GetBackgroundColor(_Out_ D2D1_COLOR_F& crfBackgroundA);
         void __vectorcall Effect_Timer(_In_ bool bStart, _In_ unsigned long ulInterval_msek, _In_ void CALLBACK fnEffect_Timer(COElement*, bool bTimerOrWaitFired));
