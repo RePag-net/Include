@@ -134,6 +134,7 @@ namespace RePag
 				unsigned char ucTextAlignment;
 				void __vectorcall OnRender(void);
 				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall CharacterMetric(void);
 				void __vectorcall TextAlignment(_In_ IDWriteTextLayout* ifTextLayout, _Out_ float& fTextWidth, _Out_ D2D1_POINT_2F& ptfText);
 				void __vectorcall TextAlignment(_In_ IDWriteTextLayout* ifTextLayout, _Out_ float& fTextWidth, _Out_ D2D1_RECT_F& rcfText);
@@ -187,7 +188,8 @@ namespace RePag
 				ID2D1SolidColorBrush* ifSelectBackColor;
 				ID2D1SolidColorBrush* ifCaretColor;
 				void __vectorcall OnRender(_In_ bool bCaret);
-				void __vectorcall OnPaint(void);
+				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_SetFocus(void);
 				void __vectorcall WM_KillFocus(void);
 				void __vectorcall WM_KeyDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
@@ -216,7 +218,6 @@ namespace RePag
 				void __vectorcall COEditLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																			_In_ STDeviceResources* pstDeviceResourcesA);
 				VMEMORY __vectorcall COFreiV(void);
-				void __vectorcall WM_Create(void);
 				void(__vectorcall* pfnWM_Char_Return)(_In_ COEditLine*);
 				void(__vectorcall* pfnWM_Char_Escape)(_In_ COEditLine*);
 				void(__vectorcall* pfnWM_KillFocus)(_In_ COEditLine*);
@@ -238,6 +239,7 @@ namespace RePag
 				void __vectorcall SelectAlles(void);
 				void __vectorcall SelectEntfernen(void);
 				void __vectorcall CaretStrength(_In_ BYTE ucCaretStrengthA);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -295,6 +297,7 @@ namespace RePag
 			protected:
 				void __vectorcall OnRender(void);
 				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_MouseLeave(void);
 				void __vectorcall WM_MouseOver(_In_ WPARAM wParam, _In_ LPARAM lParam);
@@ -311,9 +314,6 @@ namespace RePag
 			VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall GetScrollInfo(_In_ STScrollInfo& siScrollInfoA);
 				void __vectorcall SetScrollInfo(_In_ STScrollInfo& siScrollInfoA);
-				void __vectorcall NewSize(_In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
-				void __vectorcall NewWidth(_In_ long lWidthA);
-				void __vectorcall NewHeight(_In_ long lHeightA);
 				void __vectorcall ScaleArrowThumb(_In_ float fScale);
 				void __vectorcall SetButtonColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetButtonColor(_In_ D2D1_COLOR_F& crfButtonA);
@@ -346,13 +346,13 @@ namespace RePag
 			friend LRESULT CALLBACK WndProc_TextBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
-				COScrollBar* sbHorizontal;
-				COScrollBar* sbVertical;
-				void __vectorcall CreateText(void);
 
 			protected:
+				COScrollBar* sbHorizontal;
+				COScrollBar* sbVertical;
 				COList* vliText;
 				BYTE ucScrollBarSize;
+				void __vectorcall CreateText(void);
 				void __vectorcall OnRender(_In_ bool bCaret, _In_ long lCaretLine = 0, _In_ long lAnchorLine = 0);
 				void __vectorcall WM_Create(void);
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
@@ -380,6 +380,7 @@ namespace RePag
 				void __vectorcall Scroll_Line(_In_ BYTE ucDown_UP);
 				void __vectorcall SetScrollBarSize(_In_ BYTE ucWidth_Height);
 				BYTE __vectorcall GetScrollBarSize(_In_ BYTE ucBar, _Out_ BYTE ucWidth_Height);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -392,9 +393,10 @@ namespace RePag
 			friend LRESULT CALLBACK WndProc_ListBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
-				unsigned char ucIndex;
 
 			protected:
+				unsigned char ucIndex;
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_LButtonUp(_In_ LPARAM lParam);
 				void __vectorcall WM_VScroll(_In_ WPARAM wParam);
 				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
@@ -420,6 +422,7 @@ namespace RePag
 				bool __vectorcall SearchAndSetEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
 				unsigned long __vectorcall NumberEnum(void);
 				void __vectorcall DeSelectEnum(void);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -437,6 +440,7 @@ namespace RePag
 				long lLine;
 				void* pvLine;
 				void __vectorcall OnRender(_In_ bool bCaret);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_SetFocus(void);
 				void __vectorcall WM_VScroll(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
@@ -458,6 +462,7 @@ namespace RePag
 				void(__vectorcall* pfnWM_KillFocus)(_In_ COEditBox*);
 				bool(__vectorcall* pfnWM_Command)(_In_ COEditBox*, _In_ WPARAM);
 				COStringA* __vectorcall Content(_Out_ COStringA* vasInhaltA);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -472,6 +477,7 @@ namespace RePag
 
 			private:
 				COStringA* vasPassword;
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_SetFocus(void);
 				void __vectorcall WM_Char(_In_ WPARAM wParam);
 				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
@@ -483,6 +489,7 @@ namespace RePag
 				void __vectorcall COPasswordV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA);
 				VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall Text(_In_z_ const char* pcText);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------
@@ -583,6 +590,7 @@ namespace RePag
 						void __vectorcall COEntryV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																			 _In_ COLookupBox* pLookupBoxA, _In_ STDeviceResources* pstDeviceResourcesA);
 						VMEMORY __vectorcall COFreiV(void);
+						void __vectorcall ButtonSize(void);
 						void __vectorcall Geometry(void);
 						void __vectorcall OnPaint(void);
 						void __vectorcall Text(_In_z_ char* pcText);
@@ -596,8 +604,9 @@ namespace RePag
 						D2D1_COLOR_F crfArrow_Click;
 				}; COEntry* eEntry;
 				unsigned char ucHeight_Entry;
-				void __vectorcall WM_Create_LookupBox(_In_ HWND hWnd);
+				void __vectorcall WM_Create(void);
 				void __vectorcall WM_LButtonUp_LookupBox(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 
 			protected:
 
@@ -610,11 +619,6 @@ namespace RePag
 				RECT& __vectorcall GetWindow(_Out_ RECT& rcWindow);
 				void __vectorcall NewWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall NewWindowPosition(_In_ POINT& ptPositionA);
-				void __vectorcall NewWindow(_In_ long lHeightA, _In_ long lWidthA, _In_ long lPos_x, _In_ long lPos_y);
-				void __vectorcall NewWindowSize(_In_ long lHeightA, _In_ long lWidthA);
-				void __vectorcall NewWindowHeight(_In_ long lHeightA);
-				void __vectorcall NewWindowWidth(_In_ long lWidthA);
-				void __vectorcall ChangeWindowSize(_In_ long lHeightA, _In_ long lWidthA);
 				void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall SetFont(_In_ STFont& stFontA);
 				void __vectorcall SetHeight_Entry(_In_ unsigned char ucHohe);
@@ -637,6 +641,7 @@ namespace RePag
 				void __vectorcall Text(_In_z_ char* pcText);
 				bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndex);
 				bool __vectorcall SearchAndSetEntry(_In_ COStringA* vasEnum, _In_ unsigned char& ucIndexA);
+				void __vectorcall OnPaint(void);
 
 		};
 		__declspec(dllimport) COLookupBox* __vectorcall COLookupBoxV(const char* pcWindowName, unsigned int uiIDElement,
@@ -688,16 +693,16 @@ namespace RePag
 					friend LRESULT CALLBACK WndProc_Two_waySwitch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 					private:
-					COSwitchGroup* pSwitchGroup;
-					void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
+						COSwitchGroup* pSwitchGroup;
+						void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
 
 					protected:
 
 					public:
-					void __vectorcall COTwo_waySwitchV(_In_ VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
-																						 _In_ COSwitchGroup* pSwitchGroupA, _In_ STDeviceResources* pstDeviceResources);
-					void __vectorcall OnPaint(void);
-					bool bGroup;
+						void __vectorcall COTwo_waySwitchV(_In_ VMEMORY vmMemory, _In_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																							 _In_ COSwitchGroup* pSwitchGroupA, _In_ STDeviceResources* pstDeviceResources);
+						void __vectorcall OnPaint(void);
+						bool bGroup;
 
 				}; COTwo_waySwitch** vpTwo_waySwitch;
 				IDWriteTextFormat* ifText;
@@ -709,6 +714,7 @@ namespace RePag
 				short sMausPos_x;
 				unsigned char ucSwitch;
 				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
 				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall OnRender(void);
@@ -753,11 +759,11 @@ namespace RePag
 				void __vectorcall Switch_pfnWM_LButtonUp(_In_ unsigned char ucSwitchA, void(__vectorcall* pfnSwitch_WM_LButtonUp)(COSwitch*));
 				void __vectorcall Switch_pfnWM_LButtonDown(_In_ unsigned char ucSwitchA, void(__vectorcall* pfnSwitch_WM_LButtonDown)(COSwitch*));
 				void(__vectorcall* pfnOnRender)(_In_ COSwitchGroup* pSwitchGroup);
-				void __vectorcall OnPaint(void);
 				void __vectorcall SetFont(STFont& stFont);
 				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& stTextA);
 				void __vectorcall DrawText(_In_z_ const wchar_t* wcInhalt, _In_ size_t szBytes_Text, _In_ const D2D1_RECT_F& rcfText);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -796,6 +802,7 @@ namespace RePag
 				void __vectorcall FillColor(_In_ D2D1_COLOR_F& crfTextA);
 				void(__vectorcall* pfnWM_LButtonDown)(_In_ COProgressBar*, _In_ WPARAM, _In_ LPARAM);
 				void(__vectorcall* pfnWM_MouseMove)(_In_ COProgressBar*, _In_ WPARAM, _In_ LPARAM);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -828,6 +835,7 @@ namespace RePag
 						ID2D1SolidColorBrush* ifArrowColor;
 						CODate* pCalendar;
 						void __vectorcall WM_Create(void);
+						void __vectorcall WM_Size(_In_ LPARAM lParam);
 						void __vectorcall WM_SetFocus(void);
 						void __vectorcall WM_KillFocus(void);
 						bool __vectorcall WM_Command_EditDate(_In_ WPARAM wParam);
@@ -839,6 +847,7 @@ namespace RePag
 						void __vectorcall WM_MouseMove(_In_ LPARAM wParam, _In_ WPARAM lParam);
 						void __vectorcall WM_MouseLeave(void);
 						void __vectorcall WM_MouseOver(_In_ LPARAM lParam);
+						void __vectorcall ButtonSize(void);
 						void __vectorcall OnRender(_In_ bool bCaret);
 						void __vectorcall DeleteCaretPos(void);
 						void __vectorcall DeSelect(void);
@@ -893,6 +902,7 @@ namespace RePag
 				unsigned char ucFirstDayOfWeek;
 				unsigned char ucLastDay;
 				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_MouseOver(_In_ LPARAM lParam);
 				void __vectorcall WM_MouseLeave(void);
@@ -901,7 +911,6 @@ namespace RePag
 				bool __vectorcall WM_LButtonUp(_In_ LPARAM lParam);
 				void __vectorcall SetDayOfWeek(void);
 				void __vectorcall OnRender(void);
-				void __vectorcall OnPaint(void);
 				bool __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ D2D_SIZE_F& szfTextPoint);
 
 			protected:
@@ -916,7 +925,7 @@ namespace RePag
 				RECT& __vectorcall GetWindow(_In_ RECT& rcWindow);
 				void __vectorcall NewWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall NewWindowPosition(_In_ POINT& ptPositionA);
-				void __vectorcall NewWindow(_In_ long lHoheA, _In_ long lBreiteA, _In_ long lPos_x, _In_ long lPos_y);
+				//void __vectorcall NewWindow(_In_ long lHoheA, _In_ long lBreiteA, _In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall NewWindowSize(_In_ long lHoheA, _In_ long lBreiteA);
 				void __vectorcall NewWindowHeight(_In_ long lHoheA);
 				void __vectorcall NewWindowWidth(_In_ long lBreiteA);
@@ -961,6 +970,7 @@ namespace RePag
 				COStringA* __vectorcall GetDate(_In_ COStringA* pasDate);
 				COTime* __vectorcall GetTime(_In_ COTime* ptDate);
 				SYSTEMTIME __vectorcall GetSystemTime(void);
+				void __vectorcall OnPaint(void);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------

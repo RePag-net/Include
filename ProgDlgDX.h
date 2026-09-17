@@ -83,7 +83,6 @@ namespace RePag
         RECT rclDirty;
         DXGI_PRESENT_PARAMETERS dxgiPresent;
         void __vectorcall WM_Create_Element(_In_ HWND hWnd);
-        void __vectorcall WM_Size_Element(_In_ HWND hWnd, _In_ LPARAM lParam);
         inline void __vectorcall ThreadSafe_Begin(void);
         inline void __vectorcall ThreadSafe_End(void);
         void __vectorcall COElementV(_In_ const VMEMORY vmMemoryA, _In_ STDeviceResources* pstDeviceResourcesA);
@@ -114,7 +113,7 @@ namespace RePag
         void __vectorcall NewWindowWidth(_In_ long lWidthA);
         void __vectorcall ChangeWindowSize(_In_ long lHeightA, _In_ long lWidthA);
         void __vectorcall ChangeWindowPosition(_In_ long lPos_x, _In_ long lPos_y);
-        void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ unsigned char fAlpha);
+        void __vectorcall SetBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
         void __vectorcall SetBackgroundColor(_In_ D2D1_COLOR_F& crfBackgroundA);
         void __vectorcall GetBackgroundColor(_Out_ D2D1_COLOR_F& crfBackgroundA);
         void __vectorcall Effect_Timer(_In_ bool bStart, _In_ unsigned long ulInterval_msek, _In_ void CALLBACK fnEffect_Timer(COElement*, bool bTimerOrWaitFired));
@@ -139,6 +138,7 @@ namespace RePag
         long lReturn;
         bool bModal;
         DWORD dwThreadID;
+        void __vectorcall WM_Size(LPARAM lParam);
         void __vectorcall WM_Move_Dialog(void);
         void __vectorcall WM_Paint_Dialog(void);
         void __vectorcall WM_Command_Dialog(_In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
@@ -202,7 +202,7 @@ namespace RePag
       friend DWORD WINAPI thWM_Command_GraphicGroup(_In_ void* pvParam);
 
       private:
-        void __vectorcall WM_Paint(void);
+        void __vectorcall WM_Size(LPARAM lParam);
         void __vectorcall WM_Command_GrafikGruppe(_In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
       protected:
