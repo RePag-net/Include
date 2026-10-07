@@ -359,20 +359,25 @@ namespace RePag
 				COScrollBar* sbHorizontal;
 				COScrollBar* sbVertical;
 				COList* vliText;
+				long lLine;
+				void* pvLine;
 				BYTE ucScrollBarSize;
 				void __vectorcall CreateText(void);
 				void __vectorcall OnRender(_In_ bool bCaret);
 				void __vectorcall WM_Create(void);
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_VHScroll(_In_ WPARAM wParam);
-				void __vectorcall WM_KeyDown(_In_ WPARAM wParam);
-				void __vectorcall WM_LButtonDown(void);
+				void __vectorcall WM_KeyDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
+				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_MouseWheel(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall ChangeSizeVisibleScrollBars(void);
 				void __vectorcall SetScrollBarPos(_In_ BYTE ucBar, _In_ long lPos_x, _In_ long lPos_y);
 				void __vectorcall GetScrollBar(_In_ BYTE ucBar, _Out_ STScrollInfo& siScrollInfo);
 				void __vectorcall SetScrollBar(_In_ BYTE ucBar, _In_ STScrollInfo& stScrollInfo);
 				void __vectorcall DeSelect(void);
+				void __vectorcall SelectText_Left(D2D_POINT_2F& ptfCaret_old);
+				void __vectorcall LButtonDown(_In_ LPARAM lParam);
 				void __vectorcall COTextBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		 _In_ STDeviceResources* pstDeviceResourcesA); // Note: three numbers uiIDElement, because COScrollBars !!!
 
@@ -444,8 +449,6 @@ namespace RePag
 			friend void CALLBACK Timer_Caret_EditBox(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
 
 			private:
-				long lLine;
-				void* pvLine;
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_SetFocus(void);
 				void __vectorcall WM_KillFocus(void);
@@ -456,7 +459,7 @@ namespace RePag
 				void __vectorcall WM_Char(_In_ WPARAM wParam);
 				bool __vectorcall WM_Command(_In_ WPARAM wParam);
 				void __vectorcall WM_ContexMenu(_In_ LPARAM lParam);
-				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				//void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall Select_Delete(void);
 
 			protected:
