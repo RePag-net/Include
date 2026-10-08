@@ -118,39 +118,101 @@ namespace RePag
 			const WCHAR* localeName;
 		} STFont;
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		class __declspec(dllimport) COTextLine : public COGraphic
+		class __declspec(dllimport) COText : public COGraphic
 		{
-			friend LRESULT CALLBACK WndProc_TextLine(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
-
 			private:
 
 			protected:
 				COStringA* vasContent;
-				IDWriteTextFormat* ifText;
-				D2D1_COLOR_F crfText;
-				ID2D1SolidColorBrush* ifTextColor;
-				D2D_SIZE_F szfCharacter;
 				float fTextLine_maxwidth;
 				unsigned char ucTextAlignment;
-				void __vectorcall OnRender(void);
-				void __vectorcall WM_Create(void);
-				void __vectorcall WM_Size(_In_ LPARAM lParam);
+				D2D_SIZE_F szfCharacter;
+				D2D1_COLOR_F crfText;
+				ID2D1SolidColorBrush* ifTextColor;
+				IDWriteTextFormat* ifText;
 				void __vectorcall CharacterMetric(void);
 				void __vectorcall TextAlignment(_In_ IDWriteTextLayout* ifTextLayout, _Out_ float& fTextWidth, _Out_ D2D1_POINT_2F& ptfText);
 				void __vectorcall TextAlignment(_In_ IDWriteTextLayout* ifTextLayout, _Out_ float& fTextWidth, _Out_ D2D1_RECT_F& rcfText);
+				void __vectorcall COTextV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName,
+																	_In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
+
+			public:
+				void __vectorcall COTextV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																	_In_ STDeviceResources* pstDeviceResourcesA);
+				VMEMORY __vectorcall COFreiV(void);
+				void __vectorcall SetFont(STFont& stFont);
+				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
+				void __vectorcall TextAlignment(_In_ unsigned char ucTextAlignmentA);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllimport)  COSelect : public COText
+		{
+			private:
+
+			protected:
+				bool bDoNotCopy;
+				char cSelect;
+				HANDLE heCaret;
+				HANDLE htCaret;
+				HMENU hMenu;
+				BYTE ucCaretStrength;
+				D2D_POINT_2F ptfCaret;
+				D2D1_COLOR_F crfCaret;
+				ID2D1SolidColorBrush* ifCaretColor;
+				D2D1_COLOR_F crfSelectBack;
+				ID2D1SolidColorBrush* ifSelectBackColor;
+				D2D1_COLOR_F crfSelectText;
+				unsigned long ulCharacterPos;
+				unsigned char ucCharacterSpecification;
+				bool __vectorcall CharacterCheck(_In_ WPARAM wParam);
+				bool __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ D2D_SIZE_F& szfTextPoint);
+				inline long __vectorcall FloatToLong(_In_ float fNumber);
+				void __vectorcall COSelectV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName,
+																	_In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
+
+			public:
+				void __vectorcall COSelectV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
+																	_In_ STDeviceResources* pstDeviceResourcesA);
+				VMEMORY __vectorcall COFreiV(void);
+				void __vectorcall SetSelectTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall SetSelectTextColor(_In_ D2D1_COLOR_F& crfSelectTextA);
+				void __vectorcall SetSelectBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall SetSelectBackgroundColor(_In_ D2D1_COLOR_F& crfSelectBackA);
+				void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
+				void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& crfCaretA);
+				void __vectorcall CaretStrength(_In_ BYTE ucCaretStrengthA);
+
+		};
+		//---------------------------------------------------------------------------------------------------------------------------------------
+		class __declspec(dllimport) COTextLine : public COSelect
+		{
+				friend LRESULT CALLBACK WndProc_TextLine(HWND hWnd, unsigned int uiMessage, WPARAM wParam, LPARAM lParam);
+
+			private:
+
+			protected:
+				float fTextPos;
+				unsigned long ulSelectPos;
+				D2D1_RECT_F rcfSelect;
+				void __vectorcall OnRender(_In_ bool bCaret);
+				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
+				void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall CharacterMetric(void);
+				void __vectorcall DeSelect(void);
+				void __vectorcall DeleteCaretPos(void);
+				void __vectorcall SelectText_Left(void);
 				void __vectorcall COTextLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName,
-																			_In_ unsigned int uiIDElementA,	_In_ STDeviceResources* pstDeviceResourcesA);
+																			_In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
 
 			public:
 				void __vectorcall COTextLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																			_In_ STDeviceResources* pstDeviceResourcesA);
 				VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall Text(_In_z_ char* pcText);
-				void __vectorcall SetFont(STFont& stFont);
-				COStringA* __vectorcall Content(_Out_ COStringA* vasInhaltA);
-				void __vectorcall SetTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
-				void __vectorcall SetTextColor(_In_ D2D1_COLOR_F& crfTextA);
-				void __vectorcall TextAlignment(_In_ unsigned char ucTextAlignmentA);
+				COStringA* __vectorcall Content(_Out_ COStringA* vasContentA);
 				void __vectorcall OnPaint(void);
 
 		};
@@ -161,33 +223,16 @@ namespace RePag
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COEditLine : public COTextLine
 		{
-			friend LRESULT CALLBACK WndProc_EditLine(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
-			friend void CALLBACK Timer_Caret_EditLine(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
+				friend LRESULT CALLBACK WndProc_EditLine(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend void CALLBACK Timer_Caret_EditLine(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
 
 			private:
 				bool __vectorcall CharacterMask_Insert_Check(_In_ WPARAM wParam, _In_ VMBLOCK vbCharacter_Mask);
 				void __vectorcall Select_Loschen(void);
 
 			protected:
-				D2D1_RECT_F rcfSelect;
 				COStringA* vasCharacterMask;
-				float fTextPos;
-				HMENU hMenu;
-				HANDLE htCaret;
-				HANDLE heCaret;
-				D2D_POINT_2F ptfCaret;
-				BYTE ucCaretStrength;
-				char cSelect;
 				unsigned long ulCharacter_max;
-				unsigned char ucCharacterSpecification;
-				unsigned long ulCharacterPos;
-				unsigned long ulSelectPos;
-				D2D1_COLOR_F crfSelectText;
-				D2D1_COLOR_F crfSelectBack;
-				D2D1_COLOR_F crfCaret;
-				ID2D1SolidColorBrush* ifSelectBackColor;
-				ID2D1SolidColorBrush* ifCaretColor;
-				void __vectorcall OnRender(_In_ bool bCaret);
 				void __vectorcall WM_Create(void);
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_SetFocus(void);
@@ -197,20 +242,13 @@ namespace RePag
 				bool __vectorcall WM_Command(_In_ WPARAM wParam);
 				void __vectorcall WM_ContexMenu(_In_ LPARAM lParam);
 				void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
-				void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_LButtonDBClick(_In_ WPARAM wParam, _In_ LPARAM lParam);
-				void __vectorcall DeSelect(void);
+				void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				bool __vectorcall CharacterMask_FixLeft(void);
 				bool __vectorcall CharacterMask_FixRight(void);
 				bool __vectorcall CharacterMask_Insert(_In_ WPARAM wParam);
 				bool __vectorcall CharacterMask_Delete(void);
-				bool __vectorcall CharacterCheck(_In_ WPARAM wParam);
-				bool __vectorcall GetTextPoint(_In_ char* pcText, _In_ unsigned long ulTextLength, _Out_ D2D_SIZE_F& szfTextPoint);
-				inline long __vectorcall FloatToLong(_In_ float fNumber);
-				void __vectorcall DeleteCaretPos(void);
-				void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
-				void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& crfCaretA);
 				void __vectorcall COEditLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																			_In_ STDeviceResources* pstDeviceResourcesA);
 
@@ -227,10 +265,6 @@ namespace RePag
 				void(__vectorcall* pfnWM_LButtonDBClick)(_In_ COEditLine*, _In_ WPARAM, _In_ LPARAM);
 				void __vectorcall SetzVerfugbar(_In_ bool bVerfugbar);
 				void __vectorcall Text(_In_ char* pcText);
-				void __vectorcall SetSelectTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
-				void __vectorcall SetSelectTextColor(_In_ D2D1_COLOR_F& crfSelectTextA);
-				void __vectorcall SetSelectBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
-				void __vectorcall SetSelectBackgroundColor(_In_ D2D1_COLOR_F& crfSelectBackA);
 				void __vectorcall SetCharacter_Max(_In_ unsigned long ulCharacter);
 				unsigned long __vectorcall Character_Max(void);
 				void __vectorcall CharacterSpecification(_In_ unsigned char ucCharacterSpecificationA);
@@ -238,7 +272,6 @@ namespace RePag
 				COStringA* __vectorcall CharacterMask(_Out_ COStringA* pasCharacterMask);
 				void __vectorcall SelectAlles(void);
 				void __vectorcall SelectEntfernen(void);
-				void __vectorcall CaretStrength(_In_ BYTE ucCaretStrengthA);
 				void __vectorcall OnPaint(void);
 
 		};
@@ -341,12 +374,11 @@ namespace RePag
 		__declspec(dllimport) COScrollBar* __vectorcall COScrollBarV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																																 _In_ STDeviceResources* pstDeviceResources, _In_ bool bHorizontal);
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		class __declspec(dllimport) COTextBox : public COEditLine
+		class __declspec(dllimport) COTextBox : public COSelect
 		{
-			friend LRESULT CALLBACK WndProc_TextBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_TextBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
-				bool bDoNotCopy;
 
 			protected:
 				typedef struct STSelect
@@ -356,13 +388,13 @@ namespace RePag
 					unsigned long ulCharacterPos;
 				} STSelect;
 				STSelect stSelect_top;
-				STSelect stSelect_botoom;
+				STSelect stSelect_bottom;
 				COScrollBar* sbHorizontal;
 				COScrollBar* sbVertical;
+				BYTE ucScrollBarSize;
 				COList* vliText;
 				long lLine;
 				void* pvLine;
-				BYTE ucScrollBarSize;
 				void __vectorcall CreateText(void);
 				void __vectorcall OnRender(_In_ bool bCaret);
 				void __vectorcall WM_Create(void);
@@ -370,11 +402,13 @@ namespace RePag
 				void __vectorcall WM_VHScroll(_In_ WPARAM wParam);
 				void __vectorcall WM_KeyDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
+				bool __vectorcall WM_Command(_In_ WPARAM wParam);
+				void __vectorcall WM_ContexMenu(_In_ LPARAM lParam);
 				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_MouseWheel(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall ChangeSizeVisibleScrollBars(void);
 				void __vectorcall SetScrollBarPos(_In_ BYTE ucBar, _In_ long lPos_x, _In_ long lPos_y);
-				void __vectorcall GetScrollBar(_In_ BYTE ucBar, _Out_ STScrollInfo& siScrollInfo);
+				void __vectorcall GetScrollBar(_In_ BYTE ucBar, _Out_ STScrollInfo& stScrollInfo);
 				void __vectorcall SetScrollBar(_In_ BYTE ucBar, _In_ STScrollInfo& stScrollInfo);
 				void __vectorcall SelectText_Left(D2D_POINT_2F& ptfCaret_old);
 				void __vectorcall SelectText_Right(D2D_POINT_2F& ptfCaret_old);
@@ -389,6 +423,10 @@ namespace RePag
 				void __vectorcall COTextBoxV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																		 _In_ STDeviceResources* pstDeviceResources);
 				VMEMORY __vectorcall COFreiV(void);
+				bool(__vectorcall* pfnWM_Command)(_In_ COTextBox*, _In_  WPARAM);
+				void(__vectorcall* pfnWM_KillFocus)(_In_ COTextBox*);
+				void(__vectorcall* pfnWM_Char_Escape)(_In_ COTextBox*);
+				void(__vectorcall* pfnWM_LButtonUp)(_In_ COTextBox*, _In_ WPARAM, _In_ LPARAM);
 				void __vectorcall Text(_In_ char* pcText);
 				void __vectorcall Text_NewLine(_In_ char* pcText, _In_ bool bDraw);
 				unsigned long __vectorcall LineNumbers(void);
@@ -408,7 +446,7 @@ namespace RePag
 			friend LRESULT CALLBACK WndProc_ListBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
-				void __vectorcall DeSelect(void);
+
 			protected:
 				unsigned char ucIndex;
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
@@ -423,9 +461,11 @@ namespace RePag
 			public:
 				void __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
 				VMEMORY __vectorcall COFreiV(void);
+				void(__vectorcall* pfnWM_LButtonDown)(_In_ COListBox*, _In_ WPARAM, _In_ LPARAM);
+				void(__vectorcall* pfnWM_Char_Return)(_In_ COListBox*);
 				bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndexA);
 				unsigned char __vectorcall GetSelectIndex(void);
-				COStringA* __vectorcall SelectEnum(_Out_ COStringA* vasEnum);
+				COStringA* __vectorcall SelectEnum(_Out_ COStringA* vasEintrag);
 				COStringA* __vectorcall SetAndSearchEnum(_In_ unsigned char ucIndexA, _Out_ COStringA* vasEnum);
 				bool __vectorcall SearchEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
 				bool __vectorcall SearchAndSetEnum(_In_ COStringA* vasEnum, _Out_ unsigned char& ucIndexA);
@@ -441,20 +481,19 @@ namespace RePag
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COEditBox : public COTextBox
 		{
-			friend LRESULT CALLBACK WndProc_EditBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
-			friend void CALLBACK Timer_Caret_EditBox(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
+				friend LRESULT CALLBACK WndProc_EditBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend void CALLBACK Timer_Caret_EditBox(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
 
 			private:
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_SetFocus(void);
 				void __vectorcall WM_KillFocus(void);
 				void __vectorcall WM_VScroll(_In_ WPARAM wParam, _In_ LPARAM lParam);
-				void __vectorcall WM_HScroll(_In_ WPARAM wParam);
+				void __vectorcall WM_HScroll(void);
+				void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_LButtonDown(_In_ LPARAM lParam);
 				void __vectorcall WM_KeyDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_Char(_In_ WPARAM wParam);
-				bool __vectorcall WM_Command(_In_ WPARAM wParam);
-				void __vectorcall WM_ContexMenu(_In_ LPARAM lParam);
 				void __vectorcall Select_Delete(void);
 
 			protected:
@@ -499,25 +538,27 @@ namespace RePag
 		__declspec(dllimport) COPassword* __vectorcall COPasswordV(_In_ VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElement,
 																															 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		class __declspec(dllimport) COButton : public COTextLine
+		class __declspec(dllimport) COButton : public COText
 		{
-			friend LRESULT CALLBACK WndProc_Button(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_Button(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
 				D2D1_COLOR_F crfText_1;
 				ID2D1SolidColorBrush* ifTextColor_1;
 				D2D1_COLOR_F crfText_Focus;
 				ID2D1SolidColorBrush* ifTextColor_Focus;
+				ID2D1SolidColorBrush* ifBackgroundColor_1;
+				ID2D1SolidColorBrush* ifBackgroundColor_2;
+				ID2D1SolidColorBrush* ifBackgroundColor_3;
 
 			protected:
 				bool bActive;
 				D2D1_COLOR_F crfBackground_1;
-				ID2D1SolidColorBrush* ifBackgroundColor_1;
 				D2D1_COLOR_F crfBackground_2;
-				ID2D1SolidColorBrush* ifBackgroundColor_2;
 				D2D1_COLOR_F crfBackground_3;
-				ID2D1SolidColorBrush* ifBackgroundColor_3;
+				void __vectorcall OnRender(void);
 				void __vectorcall WM_Create(void);
+				void __vectorcall WM_Size(_In_ LPARAM lParam);
 				void __vectorcall WM_SetFocus(void);
 				void __vectorcall WM_KillFocus(void);
 				void __vectorcall WM_Char(_In_ WPARAM wParam);
@@ -564,7 +605,7 @@ namespace RePag
 			private:
 				class COEntry : public COButton
 				{
-					friend LRESULT CALLBACK WndProc_Entry(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+						friend LRESULT CALLBACK WndProc_Entry(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 					private:
 						float fButtonSize;
@@ -651,9 +692,9 @@ namespace RePag
 		__declspec(dllimport) COLookupBox* __vectorcall COLookupBoxV(VMEMORY vmMemory, const char* pcWindowName, unsigned int uiIDElement,
 																																 _In_ STDeviceResources* pstDeviceResources);
 		//---------------------------------------------------------------------------------------------------------------------------------------
-		 class __declspec(dllimport) COSwitch : public COButton
+		class __declspec(dllimport) COSwitch : public COButton
 		{
-			friend LRESULT CALLBACK WndProc_Switch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_Switch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
 				bool bOn;
@@ -686,8 +727,8 @@ namespace RePag
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COSwitchGroup : public COGraphic
 		{
-			friend LRESULT CALLBACK WndProc_SwitchGroup(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
-			friend LRESULT CALLBACK WndProc_Two_waySwitch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_SwitchGroup(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_Two_waySwitch(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
 				class COTwo_waySwitch : public COSwitch
@@ -777,7 +818,7 @@ namespace RePag
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COProgressBar : public COGraphic
 		{
-			friend LRESULT CALLBACK WndProc_ProgressBar(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_ProgressBar(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
 				unsigned long ulPosition_max;
@@ -814,9 +855,9 @@ namespace RePag
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) CODate : public COGraphic
 		{
-			friend LRESULT CALLBACK WndProc_Date(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
-			friend LRESULT CALLBACK WndProc_EditDate(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
-			friend void CALLBACK Timer_Caret_EditDate(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
+				friend LRESULT CALLBACK WndProc_Date(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_EditDate(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend void CALLBACK Timer_Caret_EditDate(_In_ void* pvParam, _In_ bool bTimerOrWaitFired);
 
 			private:
 				class COEditDate : public COEditLine
