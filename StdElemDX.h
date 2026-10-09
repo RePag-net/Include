@@ -175,7 +175,6 @@ namespace RePag
 			public:
 				void __vectorcall COSelectV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA,
 																	_In_ STDeviceResources* pstDeviceResourcesA);
-				VMEMORY __vectorcall COFreiV(void);
 				void __vectorcall SetSelectTextColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetSelectTextColor(_In_ D2D1_COLOR_F& crfSelectTextA);
 				void __vectorcall SetSelectBackgroundColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
@@ -183,6 +182,7 @@ namespace RePag
 				void __vectorcall SetCaretColor(_In_ unsigned char ucRed, _In_ unsigned char ucGreen, _In_ unsigned char ucBlue, _In_ float fAlpha);
 				void __vectorcall SetCaretColor(_In_ D2D1_COLOR_F& crfCaretA);
 				void __vectorcall CaretStrength(_In_ BYTE ucCaretStrengthA);
+				void __vectorcall DoNotCopy(_In_ bool bDoNotCopyA);
 
 		};
 		//---------------------------------------------------------------------------------------------------------------------------------------
@@ -199,11 +199,16 @@ namespace RePag
 				void __vectorcall OnRender(_In_ bool bCaret);
 				void __vectorcall WM_Create(void);
 				void __vectorcall WM_Size(_In_ LPARAM lParam);
+				void __vectorcall WM_SetFocus(void);
+				void __vectorcall WM_KeyDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
+				void __vectorcall WM_ContexMenu(_In_ LPARAM lParam);
+				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall CharacterMetric(void);
 				void __vectorcall DeSelect(void);
 				void __vectorcall DeleteCaretPos(void);
 				void __vectorcall SelectText_Left(void);
+				void __vectorcall SelectText_Right(void);
 				void __vectorcall COTextLineV(_In_ const VMEMORY vmMemory, _In_z_ const char* pcClassName, _In_z_ const char* pcWindowName,
 																			_In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
 
@@ -242,7 +247,6 @@ namespace RePag
 				bool __vectorcall WM_Command(_In_ WPARAM wParam);
 				void __vectorcall WM_ContexMenu(_In_ LPARAM lParam);
 				void __vectorcall WM_LButtonUp(_In_ WPARAM wParam, _In_ LPARAM lParam);
-				void __vectorcall WM_MouseMove(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_LButtonDBClick(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				void __vectorcall WM_LButtonDown(_In_ WPARAM wParam, _In_ LPARAM lParam);
 				bool __vectorcall CharacterMask_FixLeft(void);
@@ -443,7 +447,7 @@ namespace RePag
 		//---------------------------------------------------------------------------------------------------------------------------------------
 		class __declspec(dllimport) COListBox : public COTextBox
 		{
-			friend LRESULT CALLBACK WndProc_ListBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
+				friend LRESULT CALLBACK WndProc_ListBox(_In_ HWND hWnd, _In_ unsigned int uiMessage, _In_ WPARAM wParam, _In_ LPARAM lParam);
 
 			private:
 
@@ -460,7 +464,6 @@ namespace RePag
 
 			public:
 				void __vectorcall COListBoxV(_In_ VMEMORY vmSpeicher, _In_z_ const char* pcWindowName, _In_ unsigned int uiIDElementA, _In_ STDeviceResources* pstDeviceResourcesA);
-				VMEMORY __vectorcall COFreiV(void);
 				void(__vectorcall* pfnWM_LButtonDown)(_In_ COListBox*, _In_ WPARAM, _In_ LPARAM);
 				void(__vectorcall* pfnWM_Char_Return)(_In_ COListBox*);
 				bool __vectorcall SetSelectIndex(_In_ unsigned char ucIndexA);
